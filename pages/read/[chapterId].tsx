@@ -10,7 +10,7 @@ import { GetStaticPaths, GetStaticPropsContext } from "next";
 import { useRouter } from "next/router";
 import { ParsedUrlQuery } from "querystring";
 import React, { FC } from "react";
-import ReaderCarousel from "./ReaderCarousel";
+import ReaderCarousel from "../../components/MangaDetail/ReaderCarousel";
 
 interface Props {
   chapterDetail: IndividualChapter;
@@ -76,6 +76,7 @@ export const getStaticProps = async (context: GetStaticPropsContext) => {
       chapterDetail,
       viewChapters,
     },
+    revalidate: 60,
   };
 };
 

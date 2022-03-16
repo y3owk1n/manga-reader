@@ -72,6 +72,7 @@ export const getStaticProps = async (context: GetStaticPropsContext) => {
       mangaDetail,
       mangaVolumeAndChapter,
     },
+    revalidate: 60,
   };
 };
 
