@@ -35,5 +35,6 @@ export const getStaticProps = async (context: GetStaticPropsContext) => {
     props: {
       mangaList,
     },
+    revalidate: 60,
   };
 };

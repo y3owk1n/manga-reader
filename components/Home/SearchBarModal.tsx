@@ -56,7 +56,7 @@ const SearchBarModal: FC<Props> = ({ isOpen, onClose }) => {
 
       if (searchVal) {
         const searchResults: MangaList = await fetchGetJSON(
-          `https://api.mangadex.org/manga?title=${searchVal}&limit=5&contentRating[]=safe&contentRating[]=suggestive&contentRating[]=erotica&includes[]=cover_art&order[relevance]=desc`
+          `/api/search?searchTerm=${searchVal}`
         );
 
         setMangaSearchResults(searchResults);
