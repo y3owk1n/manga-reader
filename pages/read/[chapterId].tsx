@@ -65,7 +65,7 @@ export const getStaticProps = async (context: GetStaticPropsContext) => {
     `https://api.mangadex.org/at-home/server/${chapterId}`
   );
 
-  if (!chapterDetail || !viewChapters) {
+  if (chapterDetail.result === "error" || viewChapters.result === "error") {
     return {
       notFound: true,
     };

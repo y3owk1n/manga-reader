@@ -61,7 +61,7 @@ export const getStaticProps = async (context: GetStaticPropsContext) => {
     `https://api.mangadex.org/manga/${mangaId}/feed?&limit=500&order[volume]=desc&order[chapter]=desc`
   );
 
-  if (!mangaDetail) {
+  if (mangaDetail.result === "error") {
     return {
       notFound: true,
     };
