@@ -1,7 +1,7 @@
 import MangaDetailContainer from "@/components/MangaDetail/MangaDetailContainer";
 import Layout from "@/components/Shared/Layout";
 import {
-  ChapterAndVolumes,
+  ChapterList,
   MangaDetail,
   MangaList,
 } from "@/types/mangaDexApi.interface";
@@ -14,7 +14,7 @@ import React, { FC } from "react";
 
 interface Props {
   mangaDetail: MangaDetail;
-  mangaVolumeAndChapter: ChapterAndVolumes;
+  mangaVolumeAndChapter: ChapterList;
 }
 
 const MangaDetail: FC<Props> = ({ mangaDetail, mangaVolumeAndChapter }) => {
@@ -32,7 +32,7 @@ const MangaDetail: FC<Props> = ({ mangaDetail, mangaVolumeAndChapter }) => {
     <Layout>
       <MangaDetailContainer
         mangaDetail={mangaDetail.data}
-        mangaVolumeAndChapter={mangaVolumeAndChapter.volumes}
+        mangaVolumeAndChapter={mangaVolumeAndChapter.data}
       />
     </Layout>
   );
@@ -57,8 +57,8 @@ export const getStaticProps = async (context: GetStaticPropsContext) => {
     `https://api.mangadex.org/manga/${mangaId}?includes[]=cover_art`
   );
 
-  const mangaVolumeAndChapter: ChapterAndVolumes = await fetchGetJSON(
-    `https://api.mangadex.org/manga/${mangaId}/aggregate`
+  const mangaVolumeAndChapter: ChapterList = await fetchGetJSON(
+    `https://api.mangadex.org/manga/${mangaId}/feed?&limit=500&order[volume]=desc&order[chapter]=desc`
   );
 
   if (!mangaDetail) {
@@ -78,7 +78,7 @@ export const getStaticProps = async (context: GetStaticPropsContext) => {
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const mangaList: MangaList = await fetchGetJSON(
-    "https://api.mangadex.org/manga?includes[]=cover_art&order[updatedAt]=desc"
+    "https://api.mangadex.org/manga?&includes[]=cover_art&order[updatedAt]=desc"
   );
 
   const pathsData: PathsData[] = [];

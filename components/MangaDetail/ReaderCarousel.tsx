@@ -3,7 +3,6 @@ import { Box, Flex, Image } from "@chakra-ui/react";
 import useEmblaCarousel from "embla-carousel-react";
 import { useQueryState } from "next-usequerystate";
 import { FC, useCallback, useEffect, useState } from "react";
-import { NextButton, PrevButton } from "./ReaderCarouselButtons";
 
 interface Props {
   images: ImagesProps[];
@@ -76,7 +75,7 @@ const ReaderCarousel: FC<Props> = ({ images }) => {
   return (
     <Box
       pos={"relative"}
-      maxW="500px"
+      maxW="800px"
       w="100%"
       h="100%"
       mx="auto"
@@ -91,8 +90,6 @@ const ReaderCarousel: FC<Props> = ({ images }) => {
           ))}
         </Flex>
       </Box>
-      <PrevButton onClick={scrollPrev} enabled={prevBtnEnabled} />
-      <NextButton onClick={scrollNext} enabled={nextBtnEnabled} />
     </Box>
   );
 };
