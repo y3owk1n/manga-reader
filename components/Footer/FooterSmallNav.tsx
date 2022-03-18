@@ -1,12 +1,10 @@
 import {
   Box,
   Container,
-  Link,
   Stack,
   Text,
   useColorModeValue,
 } from "@chakra-ui/react";
-import NextLink from "next/link";
 
 const NAV_ITEMS = [
   {
@@ -57,7 +55,7 @@ const FooterSmallNav = () => {
         justify={{ base: "center", md: "space-between" }}
         align={{ base: "left", md: "center" }}
       >
-        <Stack direction={"row"} spacing={6}>
+        {/* <Stack direction={"row"} spacing={6}>
           <Stack direction={{ base: "column", md: "row" }}>
             {NAV_ITEMS.map((nav) => (
               <NextLink href={nav.href} key={nav.label} passHref>
@@ -76,9 +74,9 @@ const FooterSmallNav = () => {
               </NextLink>
             ))}
           </Stack>
-        </Stack>
+        </Stack> */}
         <Text fontSize={"sm"} textAlign={"center"}>
-          © 2022 Manhua Test. All rights reserved
+          © 2022 Manga 😍. All rights reserved
         </Text>
       </Container>
     </Box>

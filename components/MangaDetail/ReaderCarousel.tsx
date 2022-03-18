@@ -1,3 +1,4 @@
+import { ComicImage } from "@/types/kuaikanmanhua.interface";
 import useKeyPress from "@/utils/useKeyPress";
 import { Box, Flex, Image } from "@chakra-ui/react";
 import useEmblaCarousel from "embla-carousel-react";
@@ -5,7 +6,7 @@ import { useQueryState } from "next-usequerystate";
 import { FC, useCallback, useEffect, useState } from "react";
 
 interface Props {
-  images: ImagesProps[];
+  images: ComicImage[];
 }
 
 interface ImagesProps {
@@ -83,9 +84,13 @@ const ReaderCarousel: FC<Props> = ({ images }) => {
     >
       <Box overflow={"hidden"} cursor={"grab"} ref={viewportRef}>
         <Flex ml={-4} userSelect={"none"} align="center">
-          {images.map((images, index) => (
-            <Box key={index} pl={4} minW="100%">
-              <Image src={images.src} alt={images.alt} objectFit="cover" />
+          {images.map((images) => (
+            <Box key={images.key} pl={4} minW="100%">
+              <Image
+                src={images.url}
+                alt={`Page ${selectedIndex}`}
+                objectFit="cover"
+              />
             </Box>
           ))}
         </Flex>

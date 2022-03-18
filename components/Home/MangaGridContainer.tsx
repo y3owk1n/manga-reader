@@ -3,15 +3,22 @@ import React, { FC } from "react";
 
 interface Props {
   headerText: string;
+  gridColumnsArray?: (number | null)[];
 }
 
-const MangaGridContainer: FC<Props> = ({ children, headerText }) => {
+const MangaGridContainer: FC<Props> = ({
+  children,
+  headerText,
+  gridColumnsArray = [2, null, 4, 6],
+}) => {
   return (
     <Box>
-      <Stack spacing={0} align={"center"} textAlign={"center"}>
-        <Heading as="h2">{headerText}</Heading>
+      <Stack spacing={4}>
+        <Heading as="h2" fontSize={{ base: "2xl", md: "4xl" }}>
+          {headerText}
+        </Heading>
 
-        <SimpleGrid columns={[2, null, 3, 4]} spacing={4} pt={4} w="full">
+        <SimpleGrid columns={gridColumnsArray} spacing={4} w="full">
           {children}
         </SimpleGrid>
       </Stack>

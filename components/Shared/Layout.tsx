@@ -7,7 +7,7 @@ const Layout: FC = ({ children }) => {
   return (
     <Box>
       <WithSubnavigation />
-      <Container maxW="container.xl" my={14}>
+      <Container maxW="container.xl" my={6}>
         {children}
       </Container>
       <FooterSmallNav />

@@ -1,7 +1,6 @@
 import { CloseIcon, HamburgerIcon } from "@chakra-ui/icons";
 import {
   Box,
-  Button,
   Collapse,
   Container,
   Flex,
@@ -13,8 +12,7 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import NextLink from "next/link";
-import DesktopNav from "./DesktopNav";
-import MobileNav from "./MobileNav";
+import SearchBarContainer from "../Home/SearchBarContainer";
 
 const WithSubnavigation = () => {
   const { isOpen, onToggle } = useDisclosure();
@@ -63,9 +61,9 @@ const WithSubnavigation = () => {
               </Link>
             </NextLink>
 
-            <Flex display={{ base: "none", md: "flex" }} ml={10}>
+            {/* <Flex display={{ base: "none", md: "flex" }} ml={10}>
               <DesktopNav />
-            </Flex>
+            </Flex> */}
           </Flex>
 
           <Stack
@@ -74,7 +72,8 @@ const WithSubnavigation = () => {
             direction={"row"}
             spacing={6}
           >
-            <Button
+            <SearchBarContainer iconOnly />
+            {/* <Button
               as={"a"}
               fontSize={"sm"}
               fontWeight={400}
@@ -96,13 +95,13 @@ const WithSubnavigation = () => {
               }}
             >
               Sign Up
-            </Button>
+            </Button> */}
           </Stack>
         </Container>
       </Flex>
 
       <Collapse in={isOpen} animateOpacity>
-        <MobileNav />
+        {/* <MobileNav /> */}
       </Collapse>
     </Box>
   );

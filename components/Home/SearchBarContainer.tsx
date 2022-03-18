@@ -1,20 +1,34 @@
 import { SearchIcon } from "@chakra-ui/icons";
-import { Box, Button, useDisclosure } from "@chakra-ui/react";
-import BannerImg from "../../public/assets/banner.jpg";
-import Banner from "./Banner";
+import { Box, Button, IconButton, useDisclosure } from "@chakra-ui/react";
+import { FC } from "react";
 import SearchBarModal from "./SearchBarModal";
 
-const SearchBarContainer = () => {
+interface Props {
+  iconOnly?: boolean;
+}
+
+const SearchBarContainer: FC<Props> = ({ iconOnly = false }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
-    <Banner bannerImg={BannerImg} bannerAlt="background image">
-      <Box maxW="500px" w="full" rounded="lg">
+    <Box
+      maxW={iconOnly ? undefined : "500px"}
+      w={iconOnly ? undefined : "full"}
+      rounded="lg"
+    >
+      {iconOnly ? (
+        <IconButton
+          aria-label="search button"
+          icon={<SearchIcon />}
+          onClick={onOpen}
+        />
+      ) : (
         <Button
           leftIcon={<SearchIcon />}
+          variant="outline"
           bgColor="white"
           w="full"
-          color="gray.300"
+          color="gray.500"
           _hover={{
             bgColor: "white",
           }}
@@ -23,12 +37,12 @@ const SearchBarContainer = () => {
           display="inline-block"
           onClick={onOpen}
         >
-          Search
+          搜寻漫画
         </Button>
+      )}
 
-        <SearchBarModal isOpen={isOpen} onClose={onClose} />
-      </Box>
-    </Banner>
+      <SearchBarModal isOpen={isOpen} onClose={onClose} />
+    </Box>
   );
 };
 

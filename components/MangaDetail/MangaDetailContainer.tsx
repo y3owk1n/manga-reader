@@ -1,48 +1,92 @@
-import { Daum, DaumChapterList } from "@/types/mangaDexApi.interface";
-import { Button, chakra, SimpleGrid, Stack, Text } from "@chakra-ui/react";
+import { ChevronDownIcon, ChevronUpIcon } from "@chakra-ui/icons";
+import {
+  Button,
+  SimpleGrid,
+  Stack,
+  useBreakpointValue,
+} from "@chakra-ui/react";
+import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { FC } from "react";
+import { MangaContainer } from "pages";
+import MangaDetail, { ChapterList } from "pages/manga/[mangaId]";
+import React, { FC, useEffect, useState } from "react";
+import LatestUpdatedMangaCard from "../Home/LatestUpdatedMangaCard";
+import MangaGridContainer from "../Home/MangaGridContainer";
 import MangaDetailInfo from "./MangaDetailInfo";
 
 interface Props {
-  mangaDetail: Daum;
-  mangaVolumeAndChapter: DaumChapterList[];
+  mangaDetail: MangaDetail;
+  mangaChaptersData: ChapterList;
+  guessYouLikeData: MangaContainer;
 }
+
+const rowToShow = 5;
 
 const MangaDetailContainer: FC<Props> = ({
   mangaDetail,
-  mangaVolumeAndChapter,
+  mangaChaptersData,
+  guessYouLikeData,
 }) => {
   const router = useRouter();
 
+  const dataLength = mangaChaptersData.item.length;
+  const responsiveColumns = useBreakpointValue({ base: 2, lg: 3, xl: 4 });
+  const totalItemsToShow = responsiveColumns! * rowToShow;
+
+  const [arrayLength, setArrayLength] = useState(0);
+
+  const [showAllChapters, setShowAllChapters] = useState(false);
+
+  useEffect(() => {
+    if (showAllChapters) {
+      setArrayLength(dataLength);
+    } else {
+      if (dataLength >= totalItemsToShow) {
+        setArrayLength(totalItemsToShow);
+        return;
+      } else {
+        setArrayLength(dataLength);
+        return;
+      }
+    }
+  }, [dataLength, responsiveColumns, showAllChapters, totalItemsToShow]);
+
   return (
-    <Stack>
+    <Stack spacing={6}>
       <MangaDetailInfo mangaDetail={mangaDetail} />
 
       <Stack bgColor="gray.50" rounded="lg" p={6}>
-        <Text fontWeight="bold">Chapters</Text>
-        <SimpleGrid columns={[2, null, 3, 4]} spacing={4}>
-          {mangaVolumeAndChapter.map((chap) => (
-            <Button
-              key={chap.id}
-              variant={"outline"}
-              w="full"
-              onClick={() => router.push(`/read/${chap.id}`)}
-            >
-              {chap.attributes.chapter}
-              <chakra.span
-                isTruncated
-                fontSize={"sm"}
-                fontWeight="normal"
-                ml={1}
-              >
-                {chap.attributes.chapter && chap.attributes.title && "- "}
-                {chap.attributes.title && chap.attributes.title}
-              </chakra.span>
-            </Button>
+        <SimpleGrid columns={responsiveColumns} spacing={4}>
+          {mangaChaptersData.item.slice(0, arrayLength).map((chap) => (
+            <Link href={`/read/${chap.id}`} key={chap.id} passHref>
+              <Button variant={"outline"} as={"a"} w="full">
+                {chap.title}
+              </Button>
+            </Link>
           ))}
         </SimpleGrid>
+        {dataLength > totalItemsToShow && (
+          <Button
+            pt={4}
+            variant={"link"}
+            _hover={{ textDecor: "none" }}
+            colorScheme="blue"
+            fontWeight={"normal"}
+            rightIcon={
+              showAllChapters ? <ChevronUpIcon /> : <ChevronDownIcon />
+            }
+            onClick={() => setShowAllChapters(!showAllChapters)}
+          >
+            {showAllChapters ? "收起" : "查看所有章节"}
+          </Button>
+        )}
       </Stack>
+
+      <MangaGridContainer headerText={guessYouLikeData.title}>
+        {guessYouLikeData.item.map((m) => (
+          <LatestUpdatedMangaCard key={m.id} manga={m} />
+        ))}
+      </MangaGridContainer>
     </Stack>
   );
 };

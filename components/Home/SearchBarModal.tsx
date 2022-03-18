@@ -1,14 +1,14 @@
-import { MangaList } from "@/types/mangaDexApi.interface";
 import { fetchGetJSON } from "@/utils/apiHelper";
 import useDebounce from "@/utils/useDebounce";
 import { SearchIcon } from "@chakra-ui/icons";
 import {
   AspectRatio,
-  Badge,
   Box,
+  Center,
   chakra,
   Divider,
   HStack,
+  Image as ChakraImage,
   Input,
   InputGroup,
   InputLeftElement,
@@ -17,16 +17,30 @@ import {
   ModalBody,
   ModalContent,
   ModalOverlay,
+  Spinner,
   Stack,
   Text,
 } from "@chakra-ui/react";
-import Image from "next/image";
 import Link from "next/link";
 import React, { FC, useRef, useState } from "react";
 
 interface Props {
   isOpen: boolean;
   onClose: () => void;
+}
+
+export interface SearchResultsRes {
+  code: number;
+  message: string;
+  data: SearchResults[];
+}
+
+export interface SearchResults {
+  id: string;
+  coverImg: string;
+  title: string;
+  latestEpisode: string;
+  description: string;
 }
 
 const SearchBarModal: FC<Props> = ({ isOpen, onClose }) => {
@@ -37,12 +51,7 @@ const SearchBarModal: FC<Props> = ({ isOpen, onClose }) => {
   const [searchLoading, setSearchLoading] = useState(false);
 
   const [mangaSearchResults, setMangaSearchResults] =
-    useState<MangaList | null>(null);
-
-  const CoverImg = chakra(Image, {
-    shouldForwardProp: (prop) =>
-      ["alt", "src", "layout", "objectFit", "quality"].includes(prop),
-  });
+    useState<SearchResultsRes | null>(null);
 
   useDebounce(
     async () => {
@@ -55,7 +64,7 @@ const SearchBarModal: FC<Props> = ({ isOpen, onClose }) => {
       }
 
       if (searchVal) {
-        const searchResults: MangaList = await fetchGetJSON(
+        const searchResults: SearchResultsRes = await fetchGetJSON(
           `/api/search?searchTerm=${searchVal}`
         );
 
@@ -70,24 +79,6 @@ const SearchBarModal: FC<Props> = ({ isOpen, onClose }) => {
     500,
     [searchVal]
   );
-
-  const renderBadge = (status: string) => {
-    if (status === "ongoing") {
-      return <Badge colorScheme="orange">{status}</Badge>;
-    }
-
-    if (status === "completed") {
-      return <Badge colorScheme="green">{status}</Badge>;
-    }
-
-    if (status === "hiatus") {
-      return <Badge colorScheme="yellow">{status}</Badge>;
-    }
-
-    if (status === "cancelled") {
-      return <Badge colorScheme="red">{status}</Badge>;
-    }
-  };
 
   return (
     <Modal
@@ -107,72 +98,78 @@ const SearchBarModal: FC<Props> = ({ isOpen, onClose }) => {
               </InputLeftElement>
               <Input
                 ref={initialRef}
-                placeholder="Search"
+                type="search"
+                placeholder="搜寻漫画"
                 border="none"
-                onChange={(e) => setSearchVal(e.target.value)}
+                onChange={(e) => {
+                  if (e.target.value !== "") {
+                    setSearchLoading(true);
+                  }
+                  setSearchVal(e.target.value);
+                }}
               />
             </InputGroup>
 
-            {searchVal !== "" &&
-              (mangaSearchResults && mangaSearchResults.data.length > 0 ? (
-                <>
-                  <Divider />
-                  <Stack>
-                    {mangaSearchResults.data.map((manga) => {
-                      const getCoverArt = manga.relationships.filter(
-                        (m) => m.type === "cover_art"
-                      );
-
-                      return (
-                        <Link
-                          key={manga.id}
-                          href={`/manga/${manga.id}`}
-                          passHref
+            {searchLoading ? (
+              <Center>
+                <Spinner />
+              </Center>
+            ) : mangaSearchResults && mangaSearchResults.data.length > 0 ? (
+              <>
+                <Divider />
+                <Stack>
+                  {mangaSearchResults.data.map((manga) => (
+                    <Link key={manga.id} href={`/manga/${manga.id}`} passHref>
+                      <ChakraLink _hover={{ textDecor: "none" }}>
+                        <HStack
+                          p={2}
+                          spacing={6}
+                          cursor="pointer"
+                          _hover={{
+                            bgColor: "gray.100",
+                          }}
+                          transition={"0.2s ease-in-out"}
+                          rounded="lg"
                         >
-                          <ChakraLink _hover={{ textDecor: "none" }}>
-                            <HStack
-                              p={2}
-                              spacing={6}
-                              cursor="pointer"
-                              _hover={{
-                                bgColor: "gray.100",
-                              }}
-                              transition={"0.2s ease-in-out"}
-                              rounded="lg"
+                          <Box h="full" maxW={"100px"} w="full">
+                            <AspectRatio
+                              ratio={320 / 424}
+                              rounded="md"
+                              bgColor="gray.100"
                             >
-                              <Box h="full" maxW={"100px"} w="full">
-                                <AspectRatio ratio={640 / 1005}>
-                                  <CoverImg
-                                    roundedTop="md"
-                                    layout="fill"
-                                    rounded="md"
-                                    objectFit="cover"
-                                    alt={`Cover for ${manga.attributes.title.en}`}
-                                    src={`https://uploads.mangadex.org/covers/${manga.id}/${getCoverArt[0].attributes?.fileName}`}
-                                    quality={100}
-                                  />
-                                </AspectRatio>
-                              </Box>
-                              <Stack spacing={0}>
-                                <Text fontWeight={"bold"}>
-                                  {manga.attributes.title.en}
-                                </Text>
-                                {manga.attributes.status && (
-                                  <Box>
-                                    {renderBadge(manga.attributes.status)}
-                                  </Box>
-                                )}
-                              </Stack>
-                            </HStack>
-                          </ChakraLink>
-                        </Link>
-                      );
-                    })}
-                  </Stack>
-                </>
-              ) : (
-                <Text>No Results...</Text>
-              ))}
+                              <ChakraImage
+                                rounded="md"
+                                objectFit="cover"
+                                alt={`Cover for ${manga.title}`}
+                                src={manga.coverImg}
+                              />
+                            </AspectRatio>
+                          </Box>
+                          <Stack>
+                            <Text fontWeight={"bold"} noOfLines={1}>
+                              {manga.title}
+                            </Text>
+                            <Text noOfLines={2} fontSize="sm" color="gray.500">
+                              {manga.description}
+                            </Text>
+                            <Text fontSize="sm">
+                              更至：
+                              <chakra.span color="blue.500">
+                                {manga.latestEpisode}
+                              </chakra.span>
+                            </Text>
+                          </Stack>
+                        </HStack>
+                      </ChakraLink>
+                    </Link>
+                  ))}
+                </Stack>
+              </>
+            ) : searchVal !== "" ? (
+              <Text>很遗憾，您搜索的内容暂时没有找到 🙁</Text>
+            ) : (
+              <Text>请输入漫画标题 😉</Text>
+            )}
           </Stack>
         </ModalBody>
       </ModalContent>
