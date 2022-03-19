@@ -37,7 +37,7 @@ const ChapterDetail: FC<Props> = ({
         <Box>
           {chapterImages.map(({ image, page }) => (
             <Image
-              loading={"lazy"}
+              loading={Number(page) === 1 ? "eager" : "lazy"}
               src={image}
               alt={`Page ${page}`}
               objectFit={"cover"}
@@ -90,6 +90,11 @@ export const getStaticProps = async (context: GetStaticPropsContext) => {
     `https://www.haoman6.com/chapter/${chapterId}`
   );
 
+  if (hoaman6ChapterHtml.includes("redirected")) {
+    return {
+      notFound: true,
+    };
+  }
   const $ = cheerio.load(hoaman6ChapterHtml);
 
   const chapterDetail = $(".rd-article-wr");
@@ -131,12 +136,6 @@ export const getStaticProps = async (context: GetStaticPropsContext) => {
     mangaTitle,
     chapterTitle,
   };
-
-  // if (chapterDetail.code === 10100) {
-  //   return {
-  //     notFound: true,
-  //   };
-  // }
 
   return {
     props: {

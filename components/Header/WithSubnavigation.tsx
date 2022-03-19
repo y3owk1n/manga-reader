@@ -18,13 +18,12 @@ const WithSubnavigation = () => {
   const { isOpen, onToggle } = useDisclosure();
 
   return (
-    <Box>
+    <Box position="sticky" top={0} bgColor="white" zIndex={100}>
       <Flex
         bg={useColorModeValue("white", "gray.800")}
         color={useColorModeValue("gray.600", "white")}
         minH={"60px"}
         py={{ base: 2 }}
-        px={{ base: 4 }}
         borderBottom={1}
         borderStyle={"solid"}
         borderColor={useColorModeValue("gray.200", "gray.900")}
@@ -57,7 +56,7 @@ const WithSubnavigation = () => {
                 fontFamily={"heading"}
                 color={useColorModeValue("gray.800", "white")}
               >
-                Manga 😍
+                漫画 😍
               </Link>
             </NextLink>
 

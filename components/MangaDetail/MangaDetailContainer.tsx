@@ -1,12 +1,12 @@
 import { ChevronDownIcon, ChevronUpIcon } from "@chakra-ui/icons";
 import {
   Button,
+  Link as ChakraLink,
   SimpleGrid,
   Stack,
   useBreakpointValue,
 } from "@chakra-ui/react";
 import Link from "next/link";
-import { useRouter } from "next/router";
 import { MangaContainer } from "pages";
 import MangaDetail, { ChapterList } from "pages/manga/[mangaId]";
 import React, { FC, useEffect, useState } from "react";
@@ -27,8 +27,6 @@ const MangaDetailContainer: FC<Props> = ({
   mangaChaptersData,
   guessYouLikeData,
 }) => {
-  const router = useRouter();
-
   const dataLength = mangaChaptersData.item.length;
   const responsiveColumns = useBreakpointValue({ base: 2, lg: 3, xl: 4 });
   const totalItemsToShow = responsiveColumns! * rowToShow;
@@ -59,9 +57,19 @@ const MangaDetailContainer: FC<Props> = ({
         <SimpleGrid columns={responsiveColumns} spacing={4}>
           {mangaChaptersData.item.slice(0, arrayLength).map((chap) => (
             <Link href={`/read/${chap.id}`} key={chap.id} passHref>
-              <Button variant={"outline"} as={"a"} w="full">
-                {chap.title}
-              </Button>
+              <ChakraLink _hover={{ textDecor: "none" }}>
+                <Button
+                  variant={"outline"}
+                  size="md"
+                  // as={"a"}
+                  w="full"
+                  fontWeight={"normal"}
+                  fontSize="sm"
+                  noOfLines={1}
+                >
+                  {chap.title}
+                </Button>
+              </ChakraLink>
             </Link>
           ))}
         </SimpleGrid>

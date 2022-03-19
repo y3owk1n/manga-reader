@@ -21,6 +21,7 @@ const SearchBarContainer: FC<Props> = ({ iconOnly = false }) => {
           aria-label="search button"
           icon={<SearchIcon />}
           onClick={onOpen}
+          variant={"ghost"}
         />
       ) : (
         <Button

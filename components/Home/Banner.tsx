@@ -7,7 +7,7 @@ const Banner: FC = ({ children }) => {
       <ChakraImage
         rounded="lg"
         w="full"
-        h={{ base: "20vh", md: "60vh" }}
+        h={{ base: "30vh", md: "60vh" }}
         alt={`background image for banner`}
         src={`/assets/banner.jpg`}
         objectFit="cover"
@@ -20,7 +20,7 @@ const Banner: FC = ({ children }) => {
         px={{ base: 4, md: 8 }}
         position="absolute"
         bottom={0}
-        minH={{ base: "20vh", md: "60vh" }}
+        minH={{ base: "30vh", md: "60vh" }}
         bgColor="rgba(0,0,0,0.3)"
         rounded="lg"
       >

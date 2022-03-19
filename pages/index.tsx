@@ -2,10 +2,9 @@ import Banner from "@/components/Home/Banner";
 import LatestUpdatedMangaCard from "@/components/Home/LatestUpdatedMangaCard";
 import MangaGridContainer from "@/components/Home/MangaGridContainer";
 import PopularMangaListContainer from "@/components/Home/PopularMangaListContainer";
-import SearchBarContainer from "@/components/Home/SearchBarContainer";
 import Layout from "@/components/Shared/Layout";
 import { fetchGetHtml } from "@/utils/apiHelper";
-import { GridItem, SimpleGrid, Stack } from "@chakra-ui/react";
+import { GridItem, Heading, SimpleGrid, Stack } from "@chakra-ui/react";
 import * as cheerio from "cheerio";
 import type { GetStaticPropsContext, InferGetStaticPropsType } from "next";
 
@@ -16,9 +15,11 @@ const Home = ({
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   return (
     <Layout>
-      <Stack spacing={10}>
+      <Stack spacing={6}>
         <Banner>
-          <SearchBarContainer />
+          <Heading as="h1" color="white">
+            我爱漫画，漫画爱我
+          </Heading>
         </Banner>
         <MangaGridContainer headerText={recommendedMangaData.title}>
           {recommendedMangaData.item.map((m) => (

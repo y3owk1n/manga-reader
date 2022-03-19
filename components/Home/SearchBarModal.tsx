@@ -22,7 +22,8 @@ import {
   Text,
 } from "@chakra-ui/react";
 import Link from "next/link";
-import React, { FC, useRef, useState } from "react";
+import { useRouter } from "next/router";
+import React, { FC, useEffect, useRef, useState } from "react";
 
 interface Props {
   isOpen: boolean;
@@ -46,12 +47,20 @@ export interface SearchResults {
 const SearchBarModal: FC<Props> = ({ isOpen, onClose }) => {
   const initialRef = useRef<HTMLInputElement>(null);
 
+  const router = useRouter();
+
   const [searchVal, setSearchVal] = useState("");
 
   const [searchLoading, setSearchLoading] = useState(false);
 
   const [mangaSearchResults, setMangaSearchResults] =
     useState<SearchResultsRes | null>(null);
+
+  useEffect(() => {
+    router.events.on("routeChangeStart", () => {
+      onClose();
+    });
+  }, [onClose, router.events]);
 
   useDebounce(
     async () => {

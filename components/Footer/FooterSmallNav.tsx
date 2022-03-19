@@ -76,7 +76,7 @@ const FooterSmallNav = () => {
           </Stack>
         </Stack> */}
         <Text fontSize={"sm"} textAlign={"center"}>
-          © 2022 Manga 😍. All rights reserved
+          © 2022 漫画 😍. All rights reserved
         </Text>
       </Container>
     </Box>

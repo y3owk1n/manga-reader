@@ -82,6 +82,12 @@ export const getStaticProps = async (context: GetStaticPropsContext) => {
     `https://www.haoman6.com/comic/${mangaId}`
   );
 
+  if (haoman6MangaDetailHtml.includes("redirected")) {
+    return {
+      notFound: true,
+    };
+  }
+
   const $ = cheerio.load(haoman6MangaDetailHtml);
 
   const mangaDetailInfo = $(".de-info-wr .de-info__box");

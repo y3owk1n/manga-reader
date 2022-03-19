@@ -20,7 +20,7 @@ interface Props {
 
 const MangaDetailInfo: FC<Props> = ({ mangaDetail }) => {
   return (
-    <SimpleGrid columns={[2, null, 6, 8]} spacing={4}>
+    <SimpleGrid columns={[6, null, 6, 8]} spacing={4}>
       <GridItem colSpan={[2, null, 2, 2]}>
         <Box position="relative">
           <AspectRatio ratio={640 / 1005} bgColor="gray.100" rounded="md">
@@ -34,7 +34,7 @@ const MangaDetailInfo: FC<Props> = ({ mangaDetail }) => {
           </AspectRatio>
         </Box>
       </GridItem>
-      <GridItem colSpan={[2, null, 4, 6]}>
+      <GridItem colSpan={[4, null, 4, 6]}>
         <Stack spacing={4}>
           <Heading fontWeight="bold" fontSize="2xl">
             {mangaDetail.title}
@@ -49,7 +49,9 @@ const MangaDetailInfo: FC<Props> = ({ mangaDetail }) => {
               </WrapItem>
             ))}
           </Wrap>
-          <Text>{mangaDetail.description}</Text>
+          <Text fontSize={{ base: "sm", md: "md" }}>
+            {mangaDetail.description}
+          </Text>
         </Stack>
       </GridItem>
     </SimpleGrid>
