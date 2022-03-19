@@ -7,25 +7,25 @@ import {
   PrevNextChapter,
 } from "@/types/manga.interface";
 import { fetchGetHtml } from "@/utils/apiHelper";
-import {
-  Box,
-  Container,
-  Image as ChakraImage,
-  Stack,
-  Text,
-} from "@chakra-ui/react";
+import { Box, chakra, Container, Stack, Text } from "@chakra-ui/react";
 import * as cheerio from "cheerio";
 import { GetStaticPaths, GetStaticPropsContext } from "next";
 import { useRouter } from "next/router";
+import probe from "probe-image-size";
 import { ParsedUrlQuery } from "querystring";
 import React, { FC, useEffect, useRef, useState } from "react";
-import LazyLoad from "react-lazyload";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 
 interface Props {
   chapterImages: ChapterImages[];
   prevNextChapterData: PrevNextChapter;
   chapterDetails: ChapterDetails;
 }
+
+const LazyLoadChakra = chakra(LazyLoadImage, {
+  shouldForwardProp: (prop) =>
+    ["alt", "src", "objectFit", "effect", "height", "width"].includes(prop),
+});
 
 const ChapterDetail: FC<Props> = ({
   chapterImages,
@@ -34,11 +34,9 @@ const ChapterDetail: FC<Props> = ({
 }) => {
   const router = useRouter();
 
-  const itemsRef = useRef<HTMLImageElement[]>([]);
+  const itemsRef = useRef<HTMLDivElement[]>([]);
 
   const [currentPage, setCurrentPage] = useState(1);
-
-  // const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     itemsRef.current = itemsRef.current.slice(0, chapterImages.length);
@@ -54,7 +52,7 @@ const ChapterDetail: FC<Props> = ({
       //   currentHeight,
       //   item.offsetTop + item.height
       // );
-      return currentHeight <= item.offsetTop + item.height;
+      return currentHeight <= item.offsetTop + item.clientHeight;
     });
 
     setCurrentPage(
@@ -87,21 +85,26 @@ const ChapterDetail: FC<Props> = ({
       />
       <Container maxW="container.xl" my={6}>
         <Stack align="center" maxW="800px" mx="auto">
-          <Box>
-            {chapterImages.map(({ image, page }) => (
-              <LazyLoad key={page} once offset={1000}>
-                <ChakraImage
-                  ref={(el: HTMLImageElement) =>
-                    (itemsRef.current[Number(page) - 1] = el)
-                  }
+          <Box w="full">
+            {chapterImages.map(({ image, page, width, height }) => (
+              <Box
+                key={page}
+                w="full"
+                ref={(el: HTMLDivElement) =>
+                  (itemsRef.current[Number(page) - 1] = el)
+                }
+              >
+                <LazyLoadChakra
                   id={`page-${page}`}
                   src={image}
+                  height={height}
+                  width={width}
                   alt={`Page ${page}`}
                   objectFit={"cover"}
                   key={page}
                   bgColor="gray.100"
                 />
-              </LazyLoad>
+              </Box>
             ))}
           </Box>
           <Pagination prevNextChapterData={prevNextChapterData}>
@@ -145,21 +148,32 @@ export const getStaticProps = async (context: GetStaticPropsContext) => {
 
   const chapterDetailElem = chapterDetail.find(".rd-article__pic");
 
-  chapterDetailElem.each((i, elem) => {
-    const chapterDetailElem = $(elem);
-    const chapterDetailImageElem = chapterDetailElem.find("img");
-    const chapterDetailImage = chapterDetailImageElem.attr("echo-pc") as string;
-    const chapterDetailImageWithHttps = chapterDetailImage.replace(
-      /^http:\/\//i,
-      "https://"
-    );
-    const chapterDetailPage = chapterDetailElem.attr("data-index") as string;
+  await Promise.all(
+    chapterDetailElem.map(async (i, elem) => {
+      const chapterDetailElem = $(elem);
+      const chapterDetailImageElem = chapterDetailElem.find("img");
+      const chapterDetailImage = chapterDetailImageElem.attr(
+        "echo-pc"
+      ) as string;
+      const chapterDetailImageWithHttps = chapterDetailImage.replace(
+        /^http:\/\//i,
+        "https://"
+      );
+      const chapterDetailPage = chapterDetailElem.attr("data-index") as string;
 
-    chapterImages[i] = {
-      page: chapterDetailPage,
-      image: chapterDetailImageWithHttps,
-    };
-  });
+      const imageSizeProbe = await probe(chapterDetailImageWithHttps);
+
+      const imageWidth = imageSizeProbe.width;
+      const imageHeight = imageSizeProbe.height;
+
+      chapterImages[i] = {
+        page: chapterDetailPage,
+        image: chapterDetailImageWithHttps,
+        width: imageWidth,
+        height: imageHeight,
+      };
+    })
+  );
 
   const asideToolbar = $(".rd-aside");
   const prevChapterElem = asideToolbar.find(".j-rd-prev");
