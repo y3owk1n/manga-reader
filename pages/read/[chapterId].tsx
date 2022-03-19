@@ -1,9 +1,10 @@
 import Pagination from "@/components/Chapter/Pagination";
 import Layout from "@/components/Shared/Layout";
 import { fetchGetHtml } from "@/utils/apiHelper";
-import { Box, Heading, Image, Stack, Text } from "@chakra-ui/react";
+import { Box, chakra, Heading, Stack, Text } from "@chakra-ui/react";
 import * as cheerio from "cheerio";
 import { GetStaticPaths, GetStaticPropsContext } from "next";
+import Image from "next/image";
 import { useRouter } from "next/router";
 import { ParsedUrlQuery } from "querystring";
 import React, { FC } from "react";
@@ -21,6 +22,20 @@ const ChapterDetail: FC<Props> = ({
 }) => {
   const router = useRouter();
 
+  const ChapterImg = chakra(Image, {
+    shouldForwardProp: (prop) =>
+      [
+        "alt",
+        "src",
+        "objectFit",
+        "layout",
+        "width",
+        "height",
+        "sizes",
+        "priority",
+      ].includes(prop),
+  });
+
   if (router.isFallback) {
     return (
       <Box>
@@ -35,13 +50,14 @@ const ChapterDetail: FC<Props> = ({
         <Text>{chapterDetails.mangaTitle}</Text>
         <Heading as="h2">{chapterDetails.chapterTitle}</Heading>
         <Box>
-          {chapterImages.map(({ image, page }) => (
-            <Image
-              loading={Number(page) === 1 ? "eager" : "lazy"}
+          {chapterImages.map(({ image, page, width, height }) => (
+            <ChapterImg
+              priority={Number(page) === 1 ? true : false}
               src={image}
               alt={`Page ${page}`}
               objectFit={"cover"}
-              w="full"
+              width={width}
+              height={height}
               key={page}
             />
           ))}
@@ -69,6 +85,8 @@ interface PathsData {
 export interface ChapterImages {
   page: string;
   image: string;
+  width: number;
+  height: number;
 }
 
 export interface PrevNextChapter {
@@ -107,9 +125,16 @@ export const getStaticProps = async (context: GetStaticPropsContext) => {
     const chapterDetailImage = chapterDetailImageElem.attr("echo-pc") as string;
     const chapterDetailPage = chapterDetailElem.attr("data-index") as string;
 
+    const splitted = chapterDetailImage.split("-")[1].split(".jpg")[0]; // return value as 'Stock'
+
+    const width = Number(splitted.split("x")[0]);
+    const height = Number(splitted.split("x")[1]);
+
     chapterImages[i] = {
       page: chapterDetailPage,
       image: chapterDetailImage,
+      width,
+      height,
     };
   });
 
