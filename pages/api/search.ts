@@ -3,8 +3,7 @@ import {
   SearchResults,
   SearchResultsRes,
 } from "@/components/Home/SearchBarModal";
-import { SearchRoot } from "@/types/kuaikanmanhua.interface";
-import { fetchGetHtml, fetchGetJSON } from "@/utils/apiHelper";
+import { fetchGetHtml } from "@/utils/apiHelper";
 import * as cheerio from "cheerio";
 import type { NextApiRequest, NextApiResponse } from "next";
 
@@ -21,10 +20,6 @@ const handler = async (
       message: "Not Allowed",
     });
   }
-
-  const searchResults: SearchRoot = await fetchGetJSON(
-    `https://www.kuaikanmanhua.com/v1/search/topic?q=${searchTerm}&f=3&size=10`
-  );
 
   const searchResultsHtml = await fetchGetHtml(
     `https://www.haoman6.com/index.php/search?key=${searchTerm}`

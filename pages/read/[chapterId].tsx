@@ -1,6 +1,11 @@
 import BreadcrumbChapter from "@/components/Chapter/BreadcrumbChapter";
 import Pagination from "@/components/Chapter/Pagination";
 import Layout from "@/components/Shared/Layout";
+import {
+  ChapterDetails,
+  ChapterImages,
+  PrevNextChapter,
+} from "@/types/manga.interface";
 import { fetchGetHtml } from "@/utils/apiHelper";
 import {
   Box,
@@ -13,7 +18,7 @@ import * as cheerio from "cheerio";
 import { GetStaticPaths, GetStaticPropsContext } from "next";
 import { useRouter } from "next/router";
 import { ParsedUrlQuery } from "querystring";
-import React, { FC } from "react";
+import React, { FC, useEffect, useRef, useState } from "react";
 import LazyLoad from "react-lazyload";
 
 interface Props {
@@ -29,6 +34,42 @@ const ChapterDetail: FC<Props> = ({
 }) => {
   const router = useRouter();
 
+  const itemsRef = useRef<HTMLImageElement[]>([]);
+
+  const [currentPage, setCurrentPage] = useState(1);
+
+  // const [currentPage, setCurrentPage] = useState(1);
+
+  useEffect(() => {
+    itemsRef.current = itemsRef.current.slice(0, chapterImages.length);
+  }, [chapterImages]);
+
+  const handleScroll = () => {
+    const currentHeight = window.scrollY + window.innerHeight;
+
+    // console.log("---");
+    const items = itemsRef.current.filter((item, index) => {
+      // console.log(
+      //   `Page ${index + 1}`,
+      //   currentHeight,
+      //   item.offsetTop + item.height
+      // );
+      return currentHeight <= item.offsetTop + item.height;
+    });
+
+    setCurrentPage(
+      items.length <= 0
+        ? chapterImages.length
+        : chapterImages.length - items.length + 1
+    );
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   if (router.isFallback) {
     return (
       <Box>
@@ -39,13 +80,20 @@ const ChapterDetail: FC<Props> = ({
 
   return (
     <Layout>
-      <BreadcrumbChapter chapterDetails={chapterDetails} />
+      <BreadcrumbChapter
+        chapterDetails={chapterDetails}
+        currentPage={currentPage}
+        totalPages={chapterImages.length}
+      />
       <Container maxW="container.xl" my={6}>
         <Stack align="center" maxW="800px" mx="auto">
           <Box>
             {chapterImages.map(({ image, page }) => (
-              <LazyLoad key={page} offset={100}>
+              <LazyLoad key={page} once offset={1000}>
                 <ChakraImage
+                  ref={(el: HTMLImageElement) =>
+                    (itemsRef.current[Number(page) - 1] = el)
+                  }
                   id={`page-${page}`}
                   src={image}
                   alt={`Page ${page}`}
@@ -75,24 +123,6 @@ interface PathsData {
   params: {
     chapterId: string;
   };
-}
-
-export interface ChapterImages {
-  page: string;
-  image: string;
-}
-
-export interface PrevNextChapter {
-  hasPrev: boolean;
-  prevChapterId: string | null;
-  hasNext: boolean;
-  nextChapterId: string | null;
-}
-
-export interface ChapterDetails {
-  mangaId: string;
-  mangaTitle: string;
-  chapterTitle: string;
 }
 
 export const getStaticProps = async (context: GetStaticPropsContext) => {

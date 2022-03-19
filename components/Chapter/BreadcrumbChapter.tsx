@@ -1,3 +1,4 @@
+import { ChapterDetails } from "@/types/manga.interface";
 import {
   Box,
   Breadcrumb,
@@ -6,14 +7,19 @@ import {
   Container,
 } from "@chakra-ui/react";
 import Link from "next/link";
-import { ChapterDetails } from "pages/read/[chapterId]";
 import { FC } from "react";
 
 interface Props {
   chapterDetails: ChapterDetails;
+  currentPage: number;
+  totalPages: number;
 }
 
-const BreadcrumbChapter: FC<Props> = ({ chapterDetails }) => {
+const BreadcrumbChapter: FC<Props> = ({
+  chapterDetails,
+  currentPage,
+  totalPages,
+}) => {
   return (
     <Box
       bgColor="blue.500"
@@ -24,7 +30,7 @@ const BreadcrumbChapter: FC<Props> = ({ chapterDetails }) => {
       zIndex={100}
     >
       <Container maxW="container.xl">
-        <Breadcrumb>
+        <Breadcrumb fontSize={{ base: "sm", md: "md" }}>
           <BreadcrumbItem>
             <Link href="/" passHref>
               <BreadcrumbLink>首页</BreadcrumbLink>
@@ -43,7 +49,7 @@ const BreadcrumbChapter: FC<Props> = ({ chapterDetails }) => {
               _hover={{ textDecor: "none" }}
               fontWeight="bold"
             >
-              {chapterDetails.chapterTitle}
+              {`${chapterDetails.chapterTitle} - 第${currentPage}/${totalPages}页`}
             </BreadcrumbLink>
           </BreadcrumbItem>
         </Breadcrumb>

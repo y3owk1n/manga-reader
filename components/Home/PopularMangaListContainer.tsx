@@ -1,3 +1,4 @@
+import { PopularMangaContainer } from "@/types/manga.interface";
 import {
   Badge,
   Box,
@@ -8,7 +9,6 @@ import {
   Text,
 } from "@chakra-ui/react";
 import Link from "next/link";
-import { PopularMangaContainer } from "pages";
 import React, { FC } from "react";
 
 interface Props {

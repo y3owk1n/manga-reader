@@ -1,3 +1,4 @@
+import { MangaDetail } from "@/types/manga.interface";
 import {
   Badge,
   Box,
@@ -10,7 +11,6 @@ import {
   Wrap,
   WrapItem,
 } from "@chakra-ui/react";
-import MangaDetail from "pages/manga/[mangaId]";
 import React, { FC } from "react";
 import LazyLoad from "react-lazyload";
 

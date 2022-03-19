@@ -1,11 +1,18 @@
 import MangaDetailContainer from "@/components/MangaDetail/MangaDetailContainer";
 import Layout from "@/components/Shared/Layout";
+import {
+  ChapterList,
+  ChapterListDetails,
+  MangaContainer,
+  MangaDetail,
+  MangaDetailTag,
+  MangaItem,
+} from "@/types/manga.interface";
 import { fetchGetHtml } from "@/utils/apiHelper";
 import { Box, Container, Text } from "@chakra-ui/react";
 import * as cheerio from "cheerio";
 import { GetStaticPaths, GetStaticPropsContext } from "next";
 import { useRouter } from "next/router";
-import { MangaContainer, MangaItem } from "pages";
 import { ParsedUrlQuery } from "querystring";
 import React, { FC } from "react";
 
@@ -53,29 +60,6 @@ interface PathsData {
   params: {
     mangaId: string;
   };
-}
-
-interface MangaDetail {
-  coverImg: string;
-  title: string;
-  tags: MangaDetailTag[];
-  description: string;
-}
-
-interface MangaDetailTag {
-  id: string;
-  title: string;
-}
-
-export interface ChapterList {
-  title: string;
-  item: ChapterListDetails[];
-}
-
-export interface ChapterListDetails {
-  id: string;
-  title: string;
-  isNew: boolean;
 }
 
 export const getStaticProps = async (context: GetStaticPropsContext) => {

@@ -1,3 +1,8 @@
+import {
+  ChapterList,
+  MangaContainer,
+  MangaDetail,
+} from "@/types/manga.interface";
 import { ChevronDownIcon, ChevronUpIcon } from "@chakra-ui/icons";
 import {
   Badge,
@@ -10,8 +15,6 @@ import {
   useBreakpointValue,
 } from "@chakra-ui/react";
 import Link from "next/link";
-import { MangaContainer } from "pages";
-import MangaDetail, { ChapterList } from "pages/manga/[mangaId]";
 import React, { FC, useEffect, useState } from "react";
 import LatestUpdatedMangaCard from "../Home/LatestUpdatedMangaCard";
 import MangaGridContainer from "../Home/MangaGridContainer";

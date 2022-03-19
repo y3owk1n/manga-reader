@@ -3,6 +3,12 @@ import LatestUpdatedMangaCard from "@/components/Home/LatestUpdatedMangaCard";
 import MangaGridContainer from "@/components/Home/MangaGridContainer";
 import PopularMangaListContainer from "@/components/Home/PopularMangaListContainer";
 import Layout from "@/components/Shared/Layout";
+import {
+  MangaContainer,
+  MangaItem,
+  PopularMangaContainer,
+  PopularMangaList,
+} from "@/types/manga.interface";
 import { fetchGetHtml } from "@/utils/apiHelper";
 import {
   Container,
@@ -55,30 +61,6 @@ const Home = ({
 };
 
 export default Home;
-
-export interface MangaContainer {
-  title: string;
-  item: MangaItem[];
-}
-
-export interface MangaItem {
-  id: string;
-  coverImg: string;
-  title: string;
-  latestEpisode: string;
-  description: string;
-}
-
-export interface PopularMangaContainer {
-  title: string;
-  item: PopularMangaList[];
-}
-
-export interface PopularMangaList {
-  id: string;
-  rank: string;
-  title: string;
-}
 
 export const getStaticProps = async (context: GetStaticPropsContext) => {
   const haoman6HomeHtml = await fetchGetHtml("https://www.haoman6.com");

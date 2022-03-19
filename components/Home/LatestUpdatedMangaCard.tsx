@@ -1,3 +1,4 @@
+import { MangaItem } from "@/types/manga.interface";
 import {
   AspectRatio,
   Badge,
@@ -11,7 +12,6 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import Link from "next/link";
-import { MangaItem } from "pages";
 import React, { FC } from "react";
 import LazyLoad from "react-lazyload";
 

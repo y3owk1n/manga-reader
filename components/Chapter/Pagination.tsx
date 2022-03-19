@@ -1,8 +1,8 @@
+import { PrevNextChapter } from "@/types/manga.interface";
 import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons";
 import { Button, HStack } from "@chakra-ui/react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { PrevNextChapter } from "pages/read/[chapterId]";
 import React, { FC } from "react";
 
 interface Props {
