@@ -73,33 +73,36 @@ const MangaDetailContainer: FC<Props> = ({
                   colorScheme={"blue"}
                   fontSize="sm"
                   noOfLines={1}
-                  as={HStack}
                 >
-                  {chap.isNew && (
-                    <Badge colorScheme="red" variant="solid">
-                      新
-                    </Badge>
-                  )}
-                  <chakra.span>{chap.title}</chakra.span>
+                  <HStack>
+                    {chap.isNew && (
+                      <Badge colorScheme="red" variant="solid">
+                        新
+                      </Badge>
+                    )}
+                    <chakra.span>{chap.title}</chakra.span>
+                  </HStack>
                 </Button>
               </ChakraLink>
             </Link>
           ))}
         </SimpleGrid>
         {dataLength > totalItemsToShow && (
-          <Button
-            pt={4}
-            variant={"link"}
-            _hover={{ textDecor: "none" }}
-            colorScheme="blue"
-            fontWeight={"normal"}
-            rightIcon={
-              showAllChapters ? <ChevronUpIcon /> : <ChevronDownIcon />
-            }
-            onClick={() => setShowAllChapters(!showAllChapters)}
-          >
-            {showAllChapters ? "收起" : "查看所有章节"}
-          </Button>
+          <Stack align="center">
+            <Button
+              pt={4}
+              variant={"link"}
+              _hover={{ textDecor: "none" }}
+              colorScheme="blue"
+              fontWeight={"normal"}
+              rightIcon={
+                showAllChapters ? <ChevronUpIcon /> : <ChevronDownIcon />
+              }
+              onClick={() => setShowAllChapters(!showAllChapters)}
+            >
+              {showAllChapters ? "收起" : "查看所有章节"}
+            </Button>
+          </Stack>
         )}
       </Stack>
 

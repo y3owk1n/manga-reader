@@ -5,7 +5,14 @@ import {
   ChapterImages,
   PrevNextChapter,
 } from "@/types/manga.interface";
-import { Box, chakra, Container, Stack, Text } from "@chakra-ui/react";
+import {
+  AspectRatio,
+  Box,
+  chakra,
+  Container,
+  Stack,
+  Text,
+} from "@chakra-ui/react";
 import React, { FC, useEffect, useRef, useState } from "react";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 
@@ -70,7 +77,8 @@ const ChapterContainer: FC<Props> = ({
         <Stack align="center" maxW="800px" mx="auto">
           <Box w="full">
             {chapterImages.map(({ image, page, width, height }) => (
-              <Box
+              <AspectRatio
+                ratio={width / height}
                 key={page}
                 w="full"
                 ref={(el: HTMLDivElement) =>
@@ -87,7 +95,7 @@ const ChapterContainer: FC<Props> = ({
                   key={page}
                   bgColor="gray.100"
                 />
-              </Box>
+              </AspectRatio>
             ))}
           </Box>
           <Pagination prevNextChapterData={prevNextChapterData}>
