@@ -18,6 +18,7 @@
     "framer-motion": "^6",
     "next": "12.1.0",
     "next-usequerystate": "^1.7.2",
+    "probe-image-size": "^7.2.3",
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-html-parser": "^2.0.2",
@@ -25,6 +26,7 @@
   },
   "devDependencies": {
     "@types/node": "17.0.21",
+    "@types/probe-image-size": "^7.0.1",
     "@types/react": "17.0.40",
     "@types/react-html-parser": "^2.0.2",
     "eslint": "8.11.0",

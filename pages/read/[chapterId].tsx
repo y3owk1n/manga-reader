@@ -6,6 +6,7 @@ import * as cheerio from "cheerio";
 import { GetStaticPaths, GetStaticPropsContext } from "next";
 import Image from "next/image";
 import { useRouter } from "next/router";
+import probe from "probe-image-size";
 import { ParsedUrlQuery } from "querystring";
 import React, { FC } from "react";
 
@@ -119,24 +120,27 @@ export const getStaticProps = async (context: GetStaticPropsContext) => {
 
   const chapterImages: ChapterImages[] = [];
 
-  chapterDetail.find(".rd-article__pic").each((i, elem) => {
-    const chapterDetailElem = $(elem);
-    const chapterDetailImageElem = chapterDetailElem.find("img");
-    const chapterDetailImage = chapterDetailImageElem.attr("echo-pc") as string;
-    const chapterDetailPage = chapterDetailElem.attr("data-index") as string;
+  const chapterDetailElem = chapterDetail.find(".rd-article__pic");
 
-    const splitted = chapterDetailImage.split("-")[1].split(".jpg")[0]; // return value as 'Stock'
+  await Promise.all(
+    chapterDetail.find(".rd-article__pic").map(async (i, elem) => {
+      const chapterDetailElem = $(elem);
+      const chapterDetailImageElem = chapterDetailElem.find("img");
+      const chapterDetailImage = chapterDetailImageElem.attr(
+        "echo-pc"
+      ) as string;
+      const chapterDetailPage = chapterDetailElem.attr("data-index") as string;
 
-    const width = Number(splitted.split("x")[0]);
-    const height = Number(splitted.split("x")[1]);
+      const image = await probe(chapterDetailImage);
 
-    chapterImages[i] = {
-      page: chapterDetailPage,
-      image: chapterDetailImage,
-      width,
-      height,
-    };
-  });
+      chapterImages[i] = {
+        page: chapterDetailPage,
+        image: chapterDetailImage,
+        width: image.width,
+        height: image.height,
+      };
+    })
+  );
 
   const asideToolbar = $(".rd-aside");
   const prevChapterElem = asideToolbar.find(".j-rd-prev");
