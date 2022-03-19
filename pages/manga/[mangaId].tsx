@@ -1,7 +1,7 @@
 import MangaDetailContainer from "@/components/MangaDetail/MangaDetailContainer";
 import Layout from "@/components/Shared/Layout";
 import { fetchGetHtml } from "@/utils/apiHelper";
-import { Box, Text } from "@chakra-ui/react";
+import { Box, Container, Text } from "@chakra-ui/react";
 import * as cheerio from "cheerio";
 import { GetStaticPaths, GetStaticPropsContext } from "next";
 import { useRouter } from "next/router";
@@ -32,11 +32,13 @@ const MangaDetail: FC<Props> = ({
 
   return (
     <Layout>
-      <MangaDetailContainer
-        mangaDetail={mangaDetail}
-        mangaChaptersData={mangaChaptersData}
-        guessYouLikeData={guessYouLikeData}
-      />
+      <Container maxW="container.xl" my={6}>
+        <MangaDetailContainer
+          mangaDetail={mangaDetail}
+          mangaChaptersData={mangaChaptersData}
+          guessYouLikeData={guessYouLikeData}
+        />
+      </Container>
     </Layout>
   );
 };
@@ -73,6 +75,7 @@ export interface ChapterList {
 export interface ChapterListDetails {
   id: string;
   title: string;
+  isNew: boolean;
 }
 
 export const getStaticProps = async (context: GetStaticPropsContext) => {
@@ -93,6 +96,11 @@ export const getStaticProps = async (context: GetStaticPropsContext) => {
   const mangaDetailInfo = $(".de-info-wr .de-info__box");
 
   const mangaCoverImg = mangaDetailInfo.find("img").attr("src") as string;
+
+  const mangaCoverImgWithHttps = mangaCoverImg.replace(
+    /^http:\/\//i,
+    "https://"
+  );
 
   const mangaTitle = mangaDetailInfo.find(".comic-title").text();
 
@@ -118,7 +126,7 @@ export const getStaticProps = async (context: GetStaticPropsContext) => {
   const mangaDescription = mangaDetailInfo.find(".intro-total").text();
 
   const mangaDetail: MangaDetail = {
-    coverImg: mangaCoverImg,
+    coverImg: mangaCoverImgWithHttps,
     title: mangaTitle,
     tags: mangaTags,
     description: mangaDescription,
@@ -147,10 +155,12 @@ export const getStaticProps = async (context: GetStaticPropsContext) => {
         .find(".j-chapter-link")
         .attr("href") as string;
       const singleChapterId = singleChapterUrl.split("/")[2];
+      const isNewChapter = singleChapter.find(".icon-has-update").length;
 
       mangaChaptersItem[i] = {
         id: singleChapterId,
         title: singleChapterTitle,
+        isNew: isNewChapter <= 0 ? false : true,
       };
     });
 
@@ -182,9 +192,14 @@ export const getStaticProps = async (context: GetStaticPropsContext) => {
         .find("img")
         .attr("data-original") as string;
 
+      const singleGuessCoverImgWithHttps = singleGuessCoverImg.replace(
+        /^http:\/\//i,
+        "https://"
+      );
+
       guessYouLikeItem[i] = {
         id: singleGuessId,
-        coverImg: singleGuessCoverImg,
+        coverImg: singleGuessCoverImgWithHttps,
         title: singleGuessTitle,
         description: singleGuessDescription,
         latestEpisode: singleGuessLatestEpisode,

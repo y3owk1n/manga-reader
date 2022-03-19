@@ -4,7 +4,13 @@ import MangaGridContainer from "@/components/Home/MangaGridContainer";
 import PopularMangaListContainer from "@/components/Home/PopularMangaListContainer";
 import Layout from "@/components/Shared/Layout";
 import { fetchGetHtml } from "@/utils/apiHelper";
-import { GridItem, Heading, SimpleGrid, Stack } from "@chakra-ui/react";
+import {
+  Container,
+  GridItem,
+  Heading,
+  SimpleGrid,
+  Stack,
+} from "@chakra-ui/react";
 import * as cheerio from "cheerio";
 import type { GetStaticPropsContext, InferGetStaticPropsType } from "next";
 
@@ -15,33 +21,35 @@ const Home = ({
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   return (
     <Layout>
-      <Stack spacing={6}>
-        <Banner>
-          <Heading as="h1" color="white">
-            我爱漫画，漫画爱我
-          </Heading>
-        </Banner>
-        <MangaGridContainer headerText={recommendedMangaData.title}>
-          {recommendedMangaData.item.map((m) => (
-            <LatestUpdatedMangaCard key={m.id} manga={m} />
-          ))}
-        </MangaGridContainer>
-        <SimpleGrid columns={[1, null, 6, 10]} spacing={10}>
-          <GridItem colSpan={[1, null, 2, 3]}>
-            <PopularMangaListContainer popularList={popularMangaData} />
-          </GridItem>
-          <GridItem colSpan={[1, null, 4, 7]}>
-            <MangaGridContainer
-              gridColumnsArray={[2, null, 3, 3]}
-              headerText={recentMangaData.title}
-            >
-              {recentMangaData.item.map((m) => (
-                <LatestUpdatedMangaCard key={m.id} manga={m} />
-              ))}
-            </MangaGridContainer>
-          </GridItem>
-        </SimpleGrid>
-      </Stack>
+      <Container maxW="container.xl" my={6}>
+        <Stack spacing={6}>
+          <Banner>
+            <Heading as="h1" color="white">
+              我爱漫画，漫画爱我
+            </Heading>
+          </Banner>
+          <MangaGridContainer headerText={recommendedMangaData.title}>
+            {recommendedMangaData.item.map((m) => (
+              <LatestUpdatedMangaCard key={m.id} manga={m} />
+            ))}
+          </MangaGridContainer>
+          <SimpleGrid columns={[1, null, 6, 10]} spacing={10}>
+            <GridItem colSpan={[1, null, 2, 3]}>
+              <PopularMangaListContainer popularList={popularMangaData} />
+            </GridItem>
+            <GridItem colSpan={[1, null, 4, 7]}>
+              <MangaGridContainer
+                gridColumnsArray={[2, null, 3, 3]}
+                headerText={recentMangaData.title}
+              >
+                {recentMangaData.item.map((m) => (
+                  <LatestUpdatedMangaCard key={m.id} manga={m} />
+                ))}
+              </MangaGridContainer>
+            </GridItem>
+          </SimpleGrid>
+        </Stack>
+      </Container>
     </Layout>
   );
 };
@@ -91,10 +99,14 @@ export const getStaticProps = async (context: GetStaticPropsContext) => {
     const mangaTitle = manga.find(".comic__title").text();
     const mangaDescription = manga.find(".comic__feature").text();
     const mangaCoverImg = manga.find("img").attr("data-original") as string;
+    const mangaCoverImgWithHttps = mangaCoverImg.replace(
+      /^http:\/\//i,
+      "https://"
+    );
 
     recommendedMangaItem[i] = {
       id: mangaId,
-      coverImg: mangaCoverImg,
+      coverImg: mangaCoverImgWithHttps,
       title: mangaTitle,
       description: mangaDescription,
       latestEpisode: mangaLatestEpisode,
@@ -120,10 +132,14 @@ export const getStaticProps = async (context: GetStaticPropsContext) => {
     const mangaTitle = manga.find(".comic__title").text();
     const mangaDescription = manga.find(".comic__feature").text();
     const mangaCoverImg = manga.find("img").attr("data-original") as string;
+    const mangaCoverImgWithHttps = mangaCoverImg.replace(
+      /^http:\/\//i,
+      "https://"
+    );
 
     recentMangaItem[i] = {
       id: mangaId,
-      coverImg: mangaCoverImg,
+      coverImg: mangaCoverImgWithHttps,
       title: mangaTitle,
       description: mangaDescription,
       latestEpisode: mangaLatestEpisode,

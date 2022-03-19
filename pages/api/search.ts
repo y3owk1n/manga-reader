@@ -55,6 +55,11 @@ const handler = async (
       const mangaUrl = manga.find(".cover").attr("href") as string;
       const mangaId = mangaUrl.split("/")[2];
       const mangaCoverImg = manga.find("img").attr("data-original") as string;
+      const mangaCoverImgWithHttps = mangaCoverImg.replace(
+        /^http:\/\//i,
+        "https://"
+      );
+
       const mangaDescription = manga.find(".comic-feature").text();
 
       const mangaTitle = manga.find(".comic__title").find("a").text();
@@ -63,7 +68,7 @@ const handler = async (
 
       searchResultsDataList[i] = {
         id: mangaId,
-        coverImg: mangaCoverImg,
+        coverImg: mangaCoverImgWithHttps,
         title: mangaTitle,
         description: mangaDescription,
         latestEpisode: mangaLatestEpisode,

@@ -1,6 +1,9 @@
 import { ChevronDownIcon, ChevronUpIcon } from "@chakra-ui/icons";
 import {
+  Badge,
   Button,
+  chakra,
+  HStack,
   Link as ChakraLink,
   SimpleGrid,
   Stack,
@@ -64,10 +67,17 @@ const MangaDetailContainer: FC<Props> = ({
                   // as={"a"}
                   w="full"
                   fontWeight={"normal"}
+                  colorScheme={"blue"}
                   fontSize="sm"
                   noOfLines={1}
+                  as={HStack}
                 >
-                  {chap.title}
+                  {chap.isNew && (
+                    <Badge colorScheme="red" variant="solid">
+                      新
+                    </Badge>
+                  )}
+                  <chakra.span>{chap.title}</chakra.span>
                 </Button>
               </ChakraLink>
             </Link>

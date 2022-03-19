@@ -1,4 +1,4 @@
-import { Box, Container } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import { FC } from "react";
 import FooterSmallNav from "../Footer/FooterSmallNav";
 import WithSubnavigation from "../Header/WithSubnavigation";
@@ -7,9 +7,7 @@ const Layout: FC = ({ children }) => {
   return (
     <Box>
       <WithSubnavigation />
-      <Container maxW="container.xl" my={6}>
-        {children}
-      </Container>
+      {children}
       <FooterSmallNav />
     </Box>
   );

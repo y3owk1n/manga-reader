@@ -13,6 +13,7 @@ import {
 } from "@chakra-ui/react";
 import MangaDetail from "pages/manga/[mangaId]";
 import React, { FC } from "react";
+import LazyLoad from "react-lazyload";
 
 interface Props {
   mangaDetail: MangaDetail;
@@ -24,13 +25,15 @@ const MangaDetailInfo: FC<Props> = ({ mangaDetail }) => {
       <GridItem colSpan={[2, null, 2, 2]}>
         <Box position="relative">
           <AspectRatio ratio={640 / 1005} bgColor="gray.100" rounded="md">
-            <ChakraImage
-              loading={"lazy"}
-              rounded="md"
-              objectFit="cover"
-              alt={`Cover for ${mangaDetail.title}`}
-              src={mangaDetail.coverImg}
-            />
+            <LazyLoad>
+              <ChakraImage
+                loading={"lazy"}
+                rounded="md"
+                objectFit="cover"
+                alt={`Cover for ${mangaDetail.title}`}
+                src={mangaDetail.coverImg}
+              />
+            </LazyLoad>
           </AspectRatio>
         </Box>
       </GridItem>

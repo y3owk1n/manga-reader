@@ -13,6 +13,7 @@ import {
 import Link from "next/link";
 import { MangaItem } from "pages";
 import React, { FC } from "react";
+import LazyLoad from "react-lazyload";
 
 interface Props {
   manga: MangaItem;
@@ -34,13 +35,15 @@ const LatestUpdatedMangaCard: FC<Props> = ({ manga }) => {
         <ChakraLink _hover={{ textDecor: "none" }}>
           <Box position="relative">
             <AspectRatio ratio={320 / 424} rounded="md" bgColor="gray.100">
-              <ChakraImage
-                loading={"lazy"}
-                roundedTop="md"
-                objectFit="cover"
-                alt={`Cover for ${manga.title}`}
-                src={manga.coverImg}
-              />
+              <LazyLoad>
+                <ChakraImage
+                  loading={"lazy"}
+                  roundedTop="md"
+                  objectFit="cover"
+                  alt={`Cover for ${manga.title}`}
+                  src={manga.coverImg}
+                />
+              </LazyLoad>
             </AspectRatio>
             <HStack bottom={0} left={0} m={2} position="absolute">
               <Badge colorScheme={"blue"}>{manga.latestEpisode}</Badge>

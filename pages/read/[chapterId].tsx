@@ -1,14 +1,20 @@
+import BreadcrumbChapter from "@/components/Chapter/BreadcrumbChapter";
 import Pagination from "@/components/Chapter/Pagination";
 import Layout from "@/components/Shared/Layout";
 import { fetchGetHtml } from "@/utils/apiHelper";
-import { Box, chakra, Heading, Stack, Text } from "@chakra-ui/react";
+import {
+  Box,
+  Container,
+  Image as ChakraImage,
+  Stack,
+  Text,
+} from "@chakra-ui/react";
 import * as cheerio from "cheerio";
 import { GetStaticPaths, GetStaticPropsContext } from "next";
-import Image from "next/image";
 import { useRouter } from "next/router";
-import probe from "probe-image-size";
 import { ParsedUrlQuery } from "querystring";
 import React, { FC } from "react";
+import LazyLoad from "react-lazyload";
 
 interface Props {
   chapterImages: ChapterImages[];
@@ -23,20 +29,6 @@ const ChapterDetail: FC<Props> = ({
 }) => {
   const router = useRouter();
 
-  const ChapterImg = chakra(Image, {
-    shouldForwardProp: (prop) =>
-      [
-        "alt",
-        "src",
-        "objectFit",
-        "layout",
-        "width",
-        "height",
-        "sizes",
-        "priority",
-      ].includes(prop),
-  });
-
   if (router.isFallback) {
     return (
       <Box>
@@ -47,26 +39,28 @@ const ChapterDetail: FC<Props> = ({
 
   return (
     <Layout>
-      <Stack align="center" maxW="800px" mx="auto">
-        <Text>{chapterDetails.mangaTitle}</Text>
-        <Heading as="h2">{chapterDetails.chapterTitle}</Heading>
-        <Box>
-          {chapterImages.map(({ image, page, width, height }) => (
-            <ChapterImg
-              priority={Number(page) === 1 ? true : false}
-              src={image}
-              alt={`Page ${page}`}
-              objectFit={"cover"}
-              width={width}
-              height={height}
-              key={page}
-            />
-          ))}
-        </Box>
-        <Pagination prevNextChapterData={prevNextChapterData}>
-          {chapterImages.length > 0 && <Text>已是最后一页</Text>}
-        </Pagination>
-      </Stack>
+      <BreadcrumbChapter chapterDetails={chapterDetails} />
+      <Container maxW="container.xl" my={6}>
+        <Stack align="center" maxW="800px" mx="auto">
+          <Box>
+            {chapterImages.map(({ image, page }) => (
+              <LazyLoad key={page} offset={100}>
+                <ChakraImage
+                  id={`page-${page}`}
+                  src={image}
+                  alt={`Page ${page}`}
+                  objectFit={"cover"}
+                  key={page}
+                  bgColor="gray.100"
+                />
+              </LazyLoad>
+            ))}
+          </Box>
+          <Pagination prevNextChapterData={prevNextChapterData}>
+            {chapterImages.length > 0 && <Text>已是最后一页</Text>}
+          </Pagination>
+        </Stack>
+      </Container>
     </Layout>
   );
 };
@@ -86,8 +80,6 @@ interface PathsData {
 export interface ChapterImages {
   page: string;
   image: string;
-  width: number;
-  height: number;
 }
 
 export interface PrevNextChapter {
@@ -98,6 +90,7 @@ export interface PrevNextChapter {
 }
 
 export interface ChapterDetails {
+  mangaId: string;
   mangaTitle: string;
   chapterTitle: string;
 }
@@ -122,25 +115,21 @@ export const getStaticProps = async (context: GetStaticPropsContext) => {
 
   const chapterDetailElem = chapterDetail.find(".rd-article__pic");
 
-  await Promise.all(
-    chapterDetail.find(".rd-article__pic").map(async (i, elem) => {
-      const chapterDetailElem = $(elem);
-      const chapterDetailImageElem = chapterDetailElem.find("img");
-      const chapterDetailImage = chapterDetailImageElem.attr(
-        "echo-pc"
-      ) as string;
-      const chapterDetailPage = chapterDetailElem.attr("data-index") as string;
+  chapterDetailElem.each((i, elem) => {
+    const chapterDetailElem = $(elem);
+    const chapterDetailImageElem = chapterDetailElem.find("img");
+    const chapterDetailImage = chapterDetailImageElem.attr("echo-pc") as string;
+    const chapterDetailImageWithHttps = chapterDetailImage.replace(
+      /^http:\/\//i,
+      "https://"
+    );
+    const chapterDetailPage = chapterDetailElem.attr("data-index") as string;
 
-      const image = await probe(chapterDetailImage);
-
-      chapterImages[i] = {
-        page: chapterDetailPage,
-        image: chapterDetailImage,
-        width: image.width,
-        height: image.height,
-      };
-    })
-  );
+    chapterImages[i] = {
+      page: chapterDetailPage,
+      image: chapterDetailImageWithHttps,
+    };
+  });
 
   const asideToolbar = $(".rd-aside");
   const prevChapterElem = asideToolbar.find(".j-rd-prev");
@@ -158,11 +147,15 @@ export const getStaticProps = async (context: GetStaticPropsContext) => {
     prevChapterId: prevChapterId ?? null,
   };
 
+  const mangaUrl = $(".j-comic-title").attr("href");
+  const mangaId = mangaUrl?.split("/")[2] as string;
+
   const mangaTitle = $(".crumb__title").text();
   const chapterTitle = $(".last-crumb").text();
 
   const chapterDetails: ChapterDetails = {
     mangaTitle,
+    mangaId,
     chapterTitle,
   };
 
