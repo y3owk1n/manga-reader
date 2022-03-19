@@ -42,31 +42,38 @@ const ChapterDetail: FC<Props> = ({
     itemsRef.current = itemsRef.current.slice(0, chapterImages.length);
   }, [chapterImages]);
 
-  const handleScroll = () => {
-    const currentHeight = window.scrollY + window.innerHeight;
-
-    // console.log("---");
-    const items = itemsRef.current.filter((item, index) => {
-      // console.log(
-      //   `Page ${index + 1}`,
-      //   currentHeight,
-      //   item.offsetTop + item.height
-      // );
-      return currentHeight <= item.offsetTop + item.clientHeight;
-    });
-
-    setCurrentPage(
-      items.length <= 0
-        ? chapterImages.length
-        : chapterImages.length - items.length + 1
-    );
-  };
-
   useEffect(() => {
+    const handleScroll = () => {
+      const currentHeight = window.scrollY + window.innerHeight;
+
+      // console.log("---");
+      const items = itemsRef.current.filter((item, index) => {
+        // console.log(
+        //   `Page ${index + 1}`,
+        //   currentHeight,
+        //   item.offsetTop + item.height
+        // );
+        return currentHeight <= item.offsetTop + item.clientHeight;
+      });
+
+      setCurrentPage(
+        items.length <= 0
+          ? chapterImages.length
+          : chapterImages.length - items.length + 1
+      );
+    };
+
     window.addEventListener("scroll", handleScroll);
 
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [chapterImages.length]);
+
+  useEffect(() => {
+    router.events.on("routeChangeStart", () => {
+      itemsRef.current = [];
+      setCurrentPage(1);
+    });
+  }, [router.events]);
 
   if (router.isFallback) {
     return (
