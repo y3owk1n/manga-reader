@@ -1,5 +1,4 @@
 import {
-  AspectRatio,
   Badge,
   Box,
   GridItem,
@@ -24,17 +23,16 @@ const MangaDetailInfo: FC<Props> = ({ mangaDetail }) => {
     <SimpleGrid columns={[6, null, 6, 8]} spacing={4}>
       <GridItem colSpan={[2, null, 2, 2]}>
         <Box position="relative">
-          <AspectRatio ratio={640 / 1005} bgColor="gray.100" rounded="md">
-            <LazyLoad>
-              <ChakraImage
-                loading={"lazy"}
-                rounded="md"
-                objectFit="cover"
-                alt={`Cover for ${mangaDetail.title}`}
-                src={mangaDetail.coverImg}
-              />
-            </LazyLoad>
-          </AspectRatio>
+          <LazyLoad>
+            <ChakraImage
+              loading={"lazy"}
+              rounded="md"
+              objectFit="cover"
+              alt={`Cover for ${mangaDetail.title}`}
+              src={mangaDetail.coverImg}
+              bgColor="gray.100"
+            />
+          </LazyLoad>
         </Box>
       </GridItem>
       <GridItem colSpan={[4, null, 4, 6]}>
