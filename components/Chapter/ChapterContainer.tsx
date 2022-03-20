@@ -33,13 +33,7 @@ const ChapterContainer: FC<Props> = ({
       if (window !== undefined || itemsRef.current.length <= 0) {
         const currentHeight = window.scrollY + window.innerHeight;
 
-        // console.log("---");
         const items = itemsRef.current.filter((item, index) => {
-          // console.log(
-          //   `Page ${index + 1}`,
-          //   currentHeight,
-          //   item.offsetTop + item.height
-          // );
           return currentHeight <= item.offsetTop + item.clientHeight;
         });
 

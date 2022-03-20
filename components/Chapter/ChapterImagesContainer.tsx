@@ -42,8 +42,10 @@ const ChapterImagesContainer: FC<Props> = ({ image, page, itemsRef }) => {
         afterLoad={() => {
           const img = new Image();
           img.src = image;
-          console.log(img.height);
-          setHeight(img.height);
+          const height = img.height;
+          const width = img.width;
+          const aspectRatio = width / height;
+          setHeight(height * aspectRatio);
         }}
       />
     </Box>

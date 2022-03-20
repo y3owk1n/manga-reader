@@ -28,7 +28,6 @@ const ChapterDetail: FC = () => {
   }
 
   if (chapterError) {
-    console.log("chapterError", chapterError);
     return (
       <Layout>
         <Container maxW="container.xl" my={6} h="80vh">
