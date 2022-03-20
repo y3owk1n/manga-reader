@@ -38,7 +38,9 @@ const ChapterImagesContainer: FC<Props> = ({ image, page, itemsRef }) => {
         src={image}
         alt={`Page ${page}`}
         width={"800px"}
-        height={`${height}px`}
+        delayMethod="debounce"
+        delayTime={500}
+        height={`100%`}
         afterLoad={() => {
           const img = new Image();
           img.src = image;
