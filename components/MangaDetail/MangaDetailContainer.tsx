@@ -74,13 +74,13 @@ const MangaDetailContainer: FC<Props> = ({
                   fontSize="sm"
                   noOfLines={1}
                 >
-                  <HStack>
+                  <HStack align="center">
                     {chap.isNew && (
                       <Badge colorScheme="red" variant="solid">
                         新
                       </Badge>
                     )}
-                    <chakra.span>{chap.title}</chakra.span>
+                    <chakra.span w="full">{chap.title}</chakra.span>
                   </HStack>
                 </Button>
               </ChakraLink>

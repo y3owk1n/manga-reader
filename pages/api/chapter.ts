@@ -8,7 +8,6 @@ import { ChapterImagesRes } from "@/types/swrResponse.interface";
 import { fetchGetHtml } from "@/utils/apiHelper";
 import * as cheerio from "cheerio";
 import type { NextApiRequest, NextApiResponse } from "next";
-import probe from "probe-image-size";
 
 const errorResponse = {
   chapterImages: [],
@@ -76,15 +75,13 @@ const handler = async (
             "data-index"
           ) as string;
 
-          const imageSizeProbe = await probe(chapterDetailImageWithHttps);
-          const imageWidth = imageSizeProbe.width;
-          const imageHeight = imageSizeProbe.height;
+          // const imageSizeProbe = await probe(chapterDetailImageWithHttps);
+          // const imageWidth = imageSizeProbe.width;
+          // const imageHeight = imageSizeProbe.height;
 
           chapterImages[i] = {
             page: chapterDetailPage,
             image: chapterDetailImageWithHttps,
-            width: imageWidth,
-            height: imageHeight,
           };
         })
       );

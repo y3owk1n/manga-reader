@@ -5,27 +5,15 @@ import {
   ChapterImages,
   PrevNextChapter,
 } from "@/types/manga.interface";
-import {
-  AspectRatio,
-  Box,
-  chakra,
-  Container,
-  Stack,
-  Text,
-} from "@chakra-ui/react";
+import { Box, Container, Stack, Text } from "@chakra-ui/react";
 import React, { FC, useEffect, useRef, useState } from "react";
-import { LazyLoadImage } from "react-lazy-load-image-component";
+import ChapterImagesContainer from "./ChapterImagesContainer";
 
 interface Props {
   chapterDetails: ChapterDetails;
   chapterImages: ChapterImages[];
   prevNextChapterData: PrevNextChapter;
 }
-
-const LazyLoadChakra = chakra(LazyLoadImage, {
-  shouldForwardProp: (prop) =>
-    ["alt", "src", "objectFit", "effect", "height", "width"].includes(prop),
-});
 
 const ChapterContainer: FC<Props> = ({
   chapterDetails,
@@ -42,23 +30,25 @@ const ChapterContainer: FC<Props> = ({
 
   useEffect(() => {
     const handleScroll = () => {
-      const currentHeight = window.scrollY + window.innerHeight;
+      if (window !== undefined || itemsRef.current.length <= 0) {
+        const currentHeight = window.scrollY + window.innerHeight;
 
-      // console.log("---");
-      const items = itemsRef.current.filter((item, index) => {
-        // console.log(
-        //   `Page ${index + 1}`,
-        //   currentHeight,
-        //   item.offsetTop + item.height
-        // );
-        return currentHeight <= item.offsetTop + item.clientHeight;
-      });
+        // console.log("---");
+        const items = itemsRef.current.filter((item, index) => {
+          // console.log(
+          //   `Page ${index + 1}`,
+          //   currentHeight,
+          //   item.offsetTop + item.height
+          // );
+          return currentHeight <= item.offsetTop + item.clientHeight;
+        });
 
-      setCurrentPage(
-        items.length <= 0
-          ? chapterImages.length
-          : chapterImages.length - items.length + 1
-      );
+        setCurrentPage(
+          items.length <= 0
+            ? chapterImages.length
+            : chapterImages.length - items.length + 1
+        );
+      }
     };
 
     window.addEventListener("scroll", handleScroll);
@@ -76,26 +66,13 @@ const ChapterContainer: FC<Props> = ({
       <Container maxW="container.xl" my={6}>
         <Stack align="center" maxW="800px" mx="auto">
           <Box w="full">
-            {chapterImages.map(({ image, page, width, height }) => (
-              <AspectRatio
-                ratio={width / height}
+            {chapterImages.map(({ image, page }) => (
+              <ChapterImagesContainer
+                image={image}
+                page={page}
+                itemsRef={itemsRef}
                 key={page}
-                w="full"
-                ref={(el: HTMLDivElement) =>
-                  (itemsRef.current[Number(page) - 1] = el)
-                }
-              >
-                <LazyLoadChakra
-                  id={`page-${page}`}
-                  src={image}
-                  height={height}
-                  width={width}
-                  alt={`Page ${page}`}
-                  objectFit={"cover"}
-                  key={page}
-                  bgColor="gray.100"
-                />
-              </AspectRatio>
+              />
             ))}
           </Box>
           <Pagination prevNextChapterData={prevNextChapterData}>

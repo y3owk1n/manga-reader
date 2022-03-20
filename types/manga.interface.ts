@@ -25,8 +25,8 @@ export interface PopularMangaList {
 export interface ChapterImages {
   page: string;
   image: string;
-  width: number;
-  height: number;
+  // width: number;
+  // height: number;
 }
 
 export interface PrevNextChapter {
