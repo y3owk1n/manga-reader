@@ -20,7 +20,10 @@ const ChapterContainer: FC<Props> = ({ chapterData }) => {
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window !== undefined && itemsRef.current.length >= 0) {
+      if (
+        window !== undefined &&
+        itemsRef.current.filter((item) => item === null).length === 0
+      ) {
         const currentHeight = window.scrollY + window.innerHeight;
 
         const items = itemsRef.current.filter((item, index) => {
@@ -44,7 +47,6 @@ const ChapterContainer: FC<Props> = ({ chapterData }) => {
     <>
       <BreadcrumbChapter
         comicId={chapterData.comic_id}
-        folder={chapterData.folder}
         chapterTitle={chapterData.chapter_name}
         currentPage={currentPage}
         totalPages={chapterData.page_url.length}

@@ -24,30 +24,26 @@ const LazyLoadChakra = chakra(LazyLoadImage, {
 });
 
 const ChapterImagesContainer: FC<Props> = ({ image, page, itemsRef }) => {
-  const [height, setHeight] = useState(800);
+  const [loaded, setLoaded] = useState(false);
 
   return (
     <Box
-      w="full"
-      minH={`${height}px`}
+      w="100%"
+      h={loaded ? "100%" : `800px`}
       ref={(el: HTMLDivElement) => (itemsRef.current[Number(page) - 1] = el)}
       bgImage={`url(/assets/placeholder.png)`}
+      bgSize="cover"
     >
       <LazyLoadImage
         id={`page-${page}`}
         src={image}
         alt={`Page ${page}`}
-        width={"800px"}
+        width={"100%"}
         delayMethod="debounce"
         delayTime={500}
         height={`100%`}
         afterLoad={() => {
-          const img = new Image();
-          img.src = image;
-          const height = img.height;
-          const width = img.width;
-          const aspectRatio = width / height;
-          setHeight(height * aspectRatio);
+          setLoaded(true);
         }}
       />
     </Box>

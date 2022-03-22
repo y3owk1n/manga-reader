@@ -13,7 +13,6 @@ interface Props {
   currentPage: number;
   totalPages: number;
   chapterTitle: string;
-  folder: string;
 }
 
 const BreadcrumbChapter: FC<Props> = ({
@@ -21,10 +20,7 @@ const BreadcrumbChapter: FC<Props> = ({
   currentPage,
   totalPages,
   chapterTitle,
-  folder,
 }) => {
-  const mangaName = folder.split("/")[1];
-
   return (
     <Box
       bgColor="blue.500"
@@ -44,7 +40,7 @@ const BreadcrumbChapter: FC<Props> = ({
 
           <BreadcrumbItem>
             <Link href={`/manga/${comicId}`} passHref>
-              <BreadcrumbLink>{mangaName}</BreadcrumbLink>
+              <BreadcrumbLink>漫画主页</BreadcrumbLink>
             </Link>
           </BreadcrumbItem>
 
