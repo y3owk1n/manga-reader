@@ -28,7 +28,7 @@ export interface UpdatedComicData {
   tags: string;
   coverImg: string;
   status: string;
-  updatedEpisode: string;
+  updatedEpisode?: string;
 }
 
 export interface MangaDetailData {

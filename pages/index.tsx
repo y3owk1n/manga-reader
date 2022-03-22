@@ -19,7 +19,7 @@ const Home = () => {
   const { data: chapterData, error: chapterError } = useSWR<
     UpdatedComicSwrRes,
     Error
-  >(`/api/comic-list?page=${comicPage - 1}&type=${comicType}`, fetchGetJSON);
+  >(`/api/comic-list?page=${comicPage}&type=${comicType}`, fetchGetJSON);
 
   return (
     <Layout>
@@ -34,6 +34,8 @@ const Home = () => {
             headerText={"最新更新"}
             data={chapterData}
             chapterError={chapterError}
+            setComicPage={setComicPage}
+            comicPage={comicPage}
           />
         </Stack>
       </Container>

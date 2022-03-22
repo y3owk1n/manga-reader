@@ -26,7 +26,6 @@ import {
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { FC, useEffect, useRef, useState } from "react";
-import LazyLoad from "react-lazyload";
 
 interface Props {
   isOpen: boolean;
@@ -149,14 +148,12 @@ const SearchBarModal: FC<Props> = ({ isOpen, onClose }) => {
                               rounded="md"
                               bgColor="gray.100"
                             >
-                              <LazyLoad>
-                                <ChakraImage
-                                  rounded="md"
-                                  objectFit="cover"
-                                  alt={`Cover for ${manga.title}`}
-                                  src={manga.cover}
-                                />
-                              </LazyLoad>
+                              <ChakraImage
+                                rounded="md"
+                                objectFit="cover"
+                                alt={`Cover for ${manga.title}`}
+                                src={manga.cover}
+                              />
                             </AspectRatio>
                           </Box>
                           <Stack flex="1">
