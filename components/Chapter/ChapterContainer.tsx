@@ -1,36 +1,26 @@
-import BreadcrumbChapter from "@/components/Chapter/BreadcrumbChapter";
-import Pagination from "@/components/Chapter/Pagination";
-import {
-  ChapterDetails,
-  ChapterImages,
-  PrevNextChapter,
-} from "@/types/manga.interface";
+import { MangaChapterData } from "@/types/dmzj.interface";
 import { Box, Container, Stack, Text } from "@chakra-ui/react";
 import React, { FC, useEffect, useRef, useState } from "react";
+import BreadcrumbChapter from "./BreadcrumbChapter";
 import ChapterImagesContainer from "./ChapterImagesContainer";
+import Pagination from "./Pagination";
 
 interface Props {
-  chapterDetails: ChapterDetails;
-  chapterImages: ChapterImages[];
-  prevNextChapterData: PrevNextChapter;
+  chapterData: MangaChapterData;
 }
 
-const ChapterContainer: FC<Props> = ({
-  chapterDetails,
-  chapterImages,
-  prevNextChapterData,
-}) => {
+const ChapterContainer: FC<Props> = ({ chapterData }) => {
   const itemsRef = useRef<HTMLDivElement[]>([]);
 
   const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
-    itemsRef.current = itemsRef.current.slice(0, chapterImages.length);
-  }, [chapterImages]);
+    itemsRef.current = itemsRef.current.slice(0, chapterData.page_url.length);
+  }, [chapterData.page_url]);
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window !== undefined || itemsRef.current.length <= 0) {
+      if (window !== undefined && itemsRef.current.length >= 0) {
         const currentHeight = window.scrollY + window.innerHeight;
 
         const items = itemsRef.current.filter((item, index) => {
@@ -39,8 +29,8 @@ const ChapterContainer: FC<Props> = ({
 
         setCurrentPage(
           items.length <= 0
-            ? chapterImages.length
-            : chapterImages.length - items.length + 1
+            ? chapterData.page_url.length
+            : chapterData.page_url.length - items.length + 1
         );
       }
     };
@@ -48,29 +38,37 @@ const ChapterContainer: FC<Props> = ({
     window.addEventListener("scroll", handleScroll);
 
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [chapterImages]);
+  }, [chapterData.page_url.length]);
 
   return (
     <>
       <BreadcrumbChapter
-        chapterDetails={chapterDetails}
+        comicId={chapterData.comic_id}
+        folder={chapterData.folder}
+        chapterTitle={chapterData.chapter_name}
         currentPage={currentPage}
-        totalPages={chapterImages.length}
+        totalPages={chapterData.page_url.length}
       />
       <Container maxW="container.xl" my={6}>
-        <Stack align="center" maxW="800px" mx="auto">
-          <Box w="full">
-            {chapterImages.map(({ image, page }) => (
-              <ChapterImagesContainer
-                image={image}
-                page={page}
-                itemsRef={itemsRef}
-                key={page}
-              />
-            ))}
-          </Box>
-          <Pagination prevNextChapterData={prevNextChapterData}>
-            {chapterImages.length > 0 && <Text>已是最后一页</Text>}
+        <Stack spacing={6} align="center" maxW="800px" mx="auto">
+          <Stack>
+            <Box w="full">
+              {chapterData.page_url.map((image, i) => (
+                <ChapterImagesContainer
+                  key={i}
+                  image={image}
+                  page={(i + 1).toString()}
+                  itemsRef={itemsRef}
+                />
+              ))}
+            </Box>
+          </Stack>
+          <Pagination
+            prevChapterId={chapterData.prev_chap_id}
+            nextChapterId={chapterData.next_chap_id}
+            comicId={chapterData.comic_id}
+          >
+            {chapterData.page_url.length > 0 && <Text>已是最后一页</Text>}
           </Pagination>
         </Stack>
       </Container>

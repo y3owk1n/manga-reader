@@ -1,15 +1,30 @@
 import {
-  ChapterDetails,
-  ChapterImages,
-  PrevNextChapter,
-} from "./manga.interface";
+  MangaChapterData,
+  MangaDetailData,
+  MangaSearchData,
+  UpdatedComicData,
+} from "./dmzj.interface";
 
-export interface ChapterImagesRes {
+export interface UpdatedComicSwrRes {
   code: number;
   message: string;
-  data: {
-    chapterImages: ChapterImages[];
-    prevNextChapterData: PrevNextChapter;
-    chapterDetails: ChapterDetails;
-  };
+  data: UpdatedComicData[];
+}
+
+export interface MangaDetailSwrRes {
+  code: number;
+  message: string;
+  data: MangaDetailData;
+}
+
+export interface MangaChapterSwrRes {
+  code: number;
+  message: string;
+  data: MangaChapterData;
+}
+
+export interface MangaSearchSwrRes {
+  code: number;
+  message: string;
+  data: MangaSearchData[];
 }

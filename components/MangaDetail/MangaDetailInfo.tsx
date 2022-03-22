@@ -1,4 +1,4 @@
-import { MangaDetail } from "@/types/manga.interface";
+import { MangaDetailInfo } from "@/types/dmzj.interface";
 import {
   Badge,
   Box,
@@ -15,7 +15,7 @@ import React, { FC } from "react";
 import LazyLoad from "react-lazyload";
 
 interface Props {
-  mangaDetail: MangaDetail;
+  mangaDetail: MangaDetailInfo;
 }
 
 const MangaDetailInfo: FC<Props> = ({ mangaDetail }) => {
@@ -29,7 +29,7 @@ const MangaDetailInfo: FC<Props> = ({ mangaDetail }) => {
               rounded="md"
               objectFit="cover"
               alt={`Cover for ${mangaDetail.title}`}
-              src={mangaDetail.coverImg}
+              src={mangaDetail.cover}
               bgColor="gray.100"
             />
           </LazyLoad>
@@ -44,11 +44,7 @@ const MangaDetailInfo: FC<Props> = ({ mangaDetail }) => {
             <WrapItem>
               <Text>题材: </Text>
             </WrapItem>
-            {mangaDetail.tags.map((tag) => (
-              <WrapItem key={tag.id}>
-                <Badge colorScheme={"blue"}>{tag.title}</Badge>
-              </WrapItem>
-            ))}
+            <Badge colorScheme={"blue"}>{mangaDetail.types}</Badge>
           </Wrap>
           <Text fontSize={{ base: "sm", md: "md" }}>
             {mangaDetail.description}

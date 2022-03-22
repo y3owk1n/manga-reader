@@ -9,6 +9,34 @@ export async function fetchGetJSON(url: string) {
   }
 }
 
+export async function fetchDmzjGetJSON(url: string) {
+  try {
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        Referer: "http://www.dmzj.com/",
+      },
+    });
+    return await response.json();
+  } catch (err: any) {
+    throw new Error(err.message);
+  }
+}
+
+export async function fetchDmzjGetText(url: string) {
+  try {
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        Referer: "http://www.dmzj.com/",
+      },
+    });
+    return await response.text();
+  } catch (err: any) {
+    throw new Error(err.message);
+  }
+}
+
 export async function fetchGetHtml(url: string) {
   try {
     const data = await fetch(url, {

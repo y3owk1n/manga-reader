@@ -1,4 +1,3 @@
-import { ChapterDetails } from "@/types/manga.interface";
 import {
   Box,
   Breadcrumb,
@@ -10,16 +9,22 @@ import Link from "next/link";
 import { FC } from "react";
 
 interface Props {
-  chapterDetails: ChapterDetails;
+  comicId: number;
   currentPage: number;
   totalPages: number;
+  chapterTitle: string;
+  folder: string;
 }
 
 const BreadcrumbChapter: FC<Props> = ({
-  chapterDetails,
+  comicId,
   currentPage,
   totalPages,
+  chapterTitle,
+  folder,
 }) => {
+  const mangaName = folder.split("/")[1];
+
   return (
     <Box
       bgColor="blue.500"
@@ -38,8 +43,8 @@ const BreadcrumbChapter: FC<Props> = ({
           </BreadcrumbItem>
 
           <BreadcrumbItem>
-            <Link href={`/manga/${chapterDetails.mangaId}`} passHref>
-              <BreadcrumbLink>{chapterDetails.mangaTitle}</BreadcrumbLink>
+            <Link href={`/manga/${comicId}`} passHref>
+              <BreadcrumbLink>{mangaName}</BreadcrumbLink>
             </Link>
           </BreadcrumbItem>
 
@@ -49,7 +54,7 @@ const BreadcrumbChapter: FC<Props> = ({
               _hover={{ textDecor: "none" }}
               fontWeight="bold"
             >
-              {`${chapterDetails.chapterTitle} - 第${currentPage}/${totalPages}页`}
+              {`${chapterTitle} - 第${currentPage}/${totalPages}页`}
             </BreadcrumbLink>
           </BreadcrumbItem>
         </Breadcrumb>

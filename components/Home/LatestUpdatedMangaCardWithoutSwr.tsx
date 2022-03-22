@@ -1,10 +1,8 @@
-import { UpdatedComicData } from "@/types/dmzj.interface";
+import { MangaDetailSimilarList } from "@/types/dmzj.interface";
 import {
   AspectRatio,
-  Badge,
   Box,
   GridItem,
-  HStack,
   Image as ChakraImage,
   Link as ChakraLink,
   Stack,
@@ -16,10 +14,10 @@ import React, { FC } from "react";
 import LazyLoad from "react-lazyload";
 
 interface Props {
-  comic: UpdatedComicData;
+  comic: MangaDetailSimilarList;
 }
 
-const LatestUpdatedMangaCard: FC<Props> = ({ comic }) => {
+const LatestUpdatedMangaCardWithoutSwr: FC<Props> = ({ comic }) => {
   return (
     <GridItem
       bg={useColorModeValue("white", "gray.800")}
@@ -31,7 +29,7 @@ const LatestUpdatedMangaCard: FC<Props> = ({ comic }) => {
         transform: "translateY(-5px)",
       }}
     >
-      <Link href={`/manga/${comic.comidId}`} passHref>
+      <Link href={`/manga/${comic.id}`} passHref>
         <ChakraLink _hover={{ textDecor: "none" }}>
           <Box position="relative">
             <LazyLoad>
@@ -41,16 +39,11 @@ const LatestUpdatedMangaCard: FC<Props> = ({ comic }) => {
                   roundedTop="md"
                   objectFit="cover"
                   alt={`Cover for ${comic.title}`}
-                  src={comic.coverImg}
+                  src={comic.cover}
                   w="full"
                 />
               </AspectRatio>
             </LazyLoad>
-            {comic.status !== "" && (
-              <HStack bottom={0} left={0} m={2} position="absolute">
-                <Badge colorScheme={"blue"}>{comic.status}</Badge>
-              </HStack>
-            )}
           </Box>
 
           <Box p={4} textAlign="left">
@@ -59,13 +52,7 @@ const LatestUpdatedMangaCard: FC<Props> = ({ comic }) => {
                 {comic.title}
               </Text>
               <Text fontSize="sm" color="gray.500" noOfLines={1}>
-                {comic.author}
-              </Text>
-              <Text fontSize="sm" color="gray.500" noOfLines={1}>
-                {comic.updatedEpisode}
-              </Text>
-              <Text fontSize="sm" color="gray.500" noOfLines={1}>
-                {comic.tags}
+                {comic.last_update_chapter_name}
               </Text>
             </Stack>
           </Box>
@@ -75,4 +62,4 @@ const LatestUpdatedMangaCard: FC<Props> = ({ comic }) => {
   );
 };
 
-export default LatestUpdatedMangaCard;
+export default LatestUpdatedMangaCardWithoutSwr;

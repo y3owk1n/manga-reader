@@ -1,0 +1,65 @@
+{
+  "nested": {
+    "dmzj": {
+      "nested": {
+        "comic": {
+          "nested": {
+            "updatedComicListResponse": {
+              "fields": {
+                "errno": {
+                  "type": "int32",
+                  "id": 1
+                },
+                "errmsg": {
+                  "type": "string",
+                  "id": 2
+                },
+                "data": {
+                  "rule": "repeated",
+                  "type": "updatedComicListResponseData",
+                  "id": 3
+                }
+              }
+            },
+            "updatedComicListResponseData": {
+              "fields": {
+                "comidId": {
+                  "type": "int32",
+                  "id": 1
+                },
+                "title": {
+                  "type": "string",
+                  "id": 2
+                },
+                "type": {
+                  "type": "int32",
+                  "id": 3
+                },
+                "author": {
+                  "type": "string",
+                  "id": 4
+                },
+                "tags": {
+                  "type": "string",
+                  "id": 5
+                },
+                "coverImg": {
+                  "type": "string",
+                  "id": 6
+                },
+                "status": {
+                  "type": "string",
+                  "id": 7
+                },
+                "updatedEpisode": {
+                  "type": "string",
+                  "id": 8
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

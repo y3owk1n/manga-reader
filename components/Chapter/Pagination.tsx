@@ -1,4 +1,3 @@
-import { PrevNextChapter } from "@/types/manga.interface";
 import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons";
 import { Button, HStack } from "@chakra-ui/react";
 import Link from "next/link";
@@ -6,16 +5,26 @@ import { useRouter } from "next/router";
 import React, { FC } from "react";
 
 interface Props {
-  prevNextChapterData: PrevNextChapter;
+  prevChapterId: number | undefined;
+  nextChapterId: number | undefined;
+  comicId: number;
 }
 
-const Pagination: FC<Props> = ({ prevNextChapterData, children }) => {
+const Pagination: FC<Props> = ({
+  prevChapterId,
+  nextChapterId,
+  children,
+  comicId,
+}) => {
   const router = useRouter();
+
+  const hasPrev = prevChapterId !== undefined;
+  const hasNext = nextChapterId !== undefined;
 
   return (
     <HStack spacing={6}>
-      {prevNextChapterData.hasPrev && (
-        <Link href={`/read/${prevNextChapterData.prevChapterId}`} passHref>
+      {hasPrev && (
+        <Link href={`/manga/${comicId}/${prevChapterId}`} passHref>
           <Button
             colorScheme={"blue"}
             variant="link"
@@ -28,8 +37,8 @@ const Pagination: FC<Props> = ({ prevNextChapterData, children }) => {
         </Link>
       )}
       {children}
-      {prevNextChapterData.hasNext && (
-        <Link href={`/read/${prevNextChapterData.nextChapterId}`} passHref>
+      {hasNext && (
+        <Link href={`/manga/${comicId}/${nextChapterId}`} passHref>
           <Button
             colorScheme={"blue"}
             variant="link"

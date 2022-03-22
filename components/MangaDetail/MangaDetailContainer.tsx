@@ -1,14 +1,7 @@
-import {
-  ChapterList,
-  MangaContainer,
-  MangaDetail,
-} from "@/types/manga.interface";
+import { MangaDetailData } from "@/types/dmzj.interface";
 import { ChevronDownIcon, ChevronUpIcon } from "@chakra-ui/icons";
 import {
-  Badge,
   Button,
-  chakra,
-  HStack,
   Link as ChakraLink,
   SimpleGrid,
   Stack,
@@ -16,24 +9,18 @@ import {
 } from "@chakra-ui/react";
 import Link from "next/link";
 import React, { FC, useEffect, useState } from "react";
-import LatestUpdatedMangaCard from "../Home/LatestUpdatedMangaCard";
-import MangaGridContainer from "../Home/MangaGridContainer";
+import MangaGridContainerWithoutSwr from "../Home/MangaGridContainerWithoutSwr";
 import MangaDetailInfo from "./MangaDetailInfo";
 
 interface Props {
-  mangaDetail: MangaDetail;
-  mangaChaptersData: ChapterList;
-  guessYouLikeData: MangaContainer;
+  data: MangaDetailData;
 }
 
 const rowToShow = 5;
 
-const MangaDetailContainer: FC<Props> = ({
-  mangaDetail,
-  mangaChaptersData,
-  guessYouLikeData,
-}) => {
-  const dataLength = mangaChaptersData.item.length;
+const MangaDetailContainer: FC<Props> = ({ data }) => {
+  const dataLength = data.list.length;
+
   const responsiveColumns = useBreakpointValue({ base: 2, lg: 3, xl: 4 });
   const totalItemsToShow = responsiveColumns! * rowToShow;
 
@@ -57,40 +44,39 @@ const MangaDetailContainer: FC<Props> = ({
 
   return (
     <Stack spacing={6}>
-      <MangaDetailInfo mangaDetail={mangaDetail} />
+      <MangaDetailInfo mangaDetail={data.info} />
 
       <Stack bgColor="gray.50" rounded="lg" p={6}>
         <SimpleGrid columns={responsiveColumns} spacing={4}>
-          {mangaChaptersData.item.slice(0, arrayLength).map((chap) => (
-            <Link href={`/read/${chap.id}`} key={chap.id} passHref>
-              <ChakraLink _hover={{ textDecor: "none" }}>
-                <Button
-                  variant={"outline"}
-                  size="md"
-                  // as={"a"}
-                  w="full"
-                  fontWeight={"normal"}
-                  colorScheme={"blue"}
-                  fontSize="sm"
-                  noOfLines={1}
-                >
-                  <HStack align="center">
-                    {chap.isNew && (
-                      <Badge colorScheme="red" variant="solid">
-                        新
-                      </Badge>
-                    )}
-                    <chakra.span w="full">{chap.title}</chakra.span>
-                  </HStack>
-                </Button>
-              </ChakraLink>
-            </Link>
-          ))}
+          {data.list
+            .sort((a, b) => Number(b.chapter_order) - Number(a.chapter_order))
+            .slice(0, arrayLength)
+            .map((chap) => (
+              <Link
+                href={`/manga/${chap.comic_id}/${chap.id}`}
+                key={chap.id}
+                passHref
+              >
+                <ChakraLink _hover={{ textDecor: "none" }}>
+                  <Button
+                    variant={"outline"}
+                    size="md"
+                    // as={"a"}
+                    w="full"
+                    fontWeight={"normal"}
+                    colorScheme={"blue"}
+                    fontSize="sm"
+                    noOfLines={1}
+                  >
+                    {chap.chapter_name}
+                  </Button>
+                </ChakraLink>
+              </Link>
+            ))}
         </SimpleGrid>
         {dataLength > totalItemsToShow && (
-          <Stack align="center">
+          <Stack align="center" pt={4}>
             <Button
-              pt={4}
               variant={"link"}
               _hover={{ textDecor: "none" }}
               colorScheme="blue"
@@ -106,11 +92,10 @@ const MangaDetailContainer: FC<Props> = ({
         )}
       </Stack>
 
-      <MangaGridContainer headerText={guessYouLikeData.title}>
-        {guessYouLikeData.item.map((m) => (
-          <LatestUpdatedMangaCard key={m.id} manga={m} />
-        ))}
-      </MangaGridContainer>
+      <MangaGridContainerWithoutSwr
+        headerText={"你可能也想看  "}
+        comicData={data.similar}
+      />
     </Stack>
   );
 };

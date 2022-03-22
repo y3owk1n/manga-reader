@@ -1,8 +1,10 @@
+import { MangaSearchSwrRes } from "@/types/swrResponse.interface";
 import { fetchGetJSON } from "@/utils/apiHelper";
 import useDebounce from "@/utils/useDebounce";
 import { SearchIcon } from "@chakra-ui/icons";
 import {
   AspectRatio,
+  Badge,
   Box,
   Center,
   chakra,
@@ -55,7 +57,7 @@ const SearchBarModal: FC<Props> = ({ isOpen, onClose }) => {
   const [searchLoading, setSearchLoading] = useState(false);
 
   const [mangaSearchResults, setMangaSearchResults] =
-    useState<SearchResultsRes | null>(null);
+    useState<MangaSearchSwrRes | null>(null);
 
   useEffect(() => {
     router.events.on("routeChangeStart", () => {
@@ -74,8 +76,8 @@ const SearchBarModal: FC<Props> = ({ isOpen, onClose }) => {
       }
 
       if (searchVal) {
-        const searchResults: SearchResultsRes = await fetchGetJSON(
-          `/api/search?searchTerm=${searchVal}`
+        const searchResults: MangaSearchSwrRes = await fetchGetJSON(
+          `/api/search?searchType=${0}&searchKeyword=${searchVal}&searchPage=${0}`
         );
 
         setMangaSearchResults(searchResults);
@@ -152,22 +154,22 @@ const SearchBarModal: FC<Props> = ({ isOpen, onClose }) => {
                                   rounded="md"
                                   objectFit="cover"
                                   alt={`Cover for ${manga.title}`}
-                                  src={manga.coverImg}
+                                  src={manga.cover}
                                 />
                               </LazyLoad>
                             </AspectRatio>
                           </Box>
-                          <Stack>
+                          <Stack flex="1">
                             <Text fontWeight={"bold"} noOfLines={1}>
                               {manga.title}
                             </Text>
-                            <Text noOfLines={2} fontSize="sm" color="gray.500">
-                              {manga.description}
-                            </Text>
+                            <Box>
+                              <Badge colorScheme={"blue"}>{manga.types}</Badge>
+                            </Box>
                             <Text fontSize="sm">
                               更至：
                               <chakra.span color="blue.500">
-                                {manga.latestEpisode}
+                                {manga.last_name}
                               </chakra.span>
                             </Text>
                           </Stack>
