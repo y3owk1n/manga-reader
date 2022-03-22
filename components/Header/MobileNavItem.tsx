@@ -10,6 +10,7 @@ import {
   useColorModeValue,
   useDisclosure,
 } from "@chakra-ui/react";
+import NextLink from "next/link";
 import React from "react";
 
 const MobileNavItem = ({ label, children, href }: NavItem) => {
@@ -55,9 +56,11 @@ const MobileNavItem = ({ label, children, href }: NavItem) => {
         >
           {children &&
             children.map((child) => (
-              <Link key={child.label} py={2} href={child.href}>
-                {child.label}
-              </Link>
+              <NextLink key={child.label} href={child.href as string} passHref>
+                <Link key={child.label} py={2} href={child.href}>
+                  {child.label}
+                </Link>
+              </NextLink>
             ))}
         </Stack>
       </Collapse>
