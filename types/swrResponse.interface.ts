@@ -2,6 +2,7 @@ import {
   MangaChapterData,
   MangaDetailData,
   MangaSearchData,
+  RecommendedData,
   UpdatedComicData,
 } from "./dmzj.interface";
 
@@ -27,4 +28,10 @@ export interface MangaSearchSwrRes {
   code: number;
   message: string;
   data: MangaSearchData[];
+}
+
+export interface RecommendedSwrRes {
+  code: number;
+  message: string;
+  data: RecommendedData[];
 }

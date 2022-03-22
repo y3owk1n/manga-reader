@@ -41,6 +41,10 @@ export const NAV_ITEMS: Array<NavItem> = [
     href: "/",
   },
   {
+    label: "最新更新",
+    href: "/latest",
+  },
+  {
     label: "已收藏",
     href: "/favourite",
   },

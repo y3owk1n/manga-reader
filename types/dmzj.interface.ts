@@ -123,3 +123,19 @@ export interface MangaSearchData {
   title: string;
   types: string;
 }
+
+export interface RecommendedData {
+  category_id: number;
+  title: string;
+  sort: number;
+  data: RecommendedListData[];
+}
+
+export interface RecommendedListData {
+  cover: string;
+  title: string;
+  sub_title: string;
+  type: number;
+  obj_id: number;
+  status: string;
+}
