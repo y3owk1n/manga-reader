@@ -1,7 +1,10 @@
 import { MangaDetailData } from "@/types/dmzj.interface";
+import useLocalStorage from "@/utils/useLocalStorage";
 import { ChevronDownIcon, ChevronUpIcon } from "@chakra-ui/icons";
 import {
   Button,
+  chakra,
+  HStack,
   Link as ChakraLink,
   SimpleGrid,
   Stack,
@@ -9,6 +12,8 @@ import {
 } from "@chakra-ui/react";
 import Link from "next/link";
 import React, { FC, useEffect, useState } from "react";
+import { AiFillEye } from "react-icons/ai";
+import { LocalStorageChapterProgressProp } from "../Chapter/ChapterContainer";
 import MangaGridContainerWithoutSwr from "../Home/MangaGridContainerWithoutSwr";
 import MangaDetailInfo from "./MangaDetailInfo";
 
@@ -20,6 +25,10 @@ const rowToShow = 5;
 
 const MangaDetailContainer: FC<Props> = ({ data }) => {
   const dataLength = data.list.length;
+
+  const [chapterProgress, setChapterProgress] = useLocalStorage<
+    LocalStorageChapterProgressProp[]
+  >("progress", []);
 
   const responsiveColumns = useBreakpointValue({ base: 2, lg: 3, xl: 4 });
   const totalItemsToShow = responsiveColumns! * rowToShow;
@@ -68,7 +77,14 @@ const MangaDetailContainer: FC<Props> = ({ data }) => {
                     fontSize="sm"
                     noOfLines={1}
                   >
-                    {chap.chapter_name}
+                    <HStack>
+                      {chapterProgress.some(
+                        (progressChap) =>
+                          progressChap.comicId === Number(chap.comic_id) &&
+                          progressChap.chapterId === Number(chap.id)
+                      ) && <AiFillEye />}
+                      <chakra.span>{chap.chapter_name}</chakra.span>
+                    </HStack>
                   </Button>
                 </ChakraLink>
               </Link>

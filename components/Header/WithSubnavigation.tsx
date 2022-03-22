@@ -13,6 +13,8 @@ import {
 } from "@chakra-ui/react";
 import NextLink from "next/link";
 import SearchBarContainer from "../Home/SearchBarContainer";
+import DesktopNav from "./DesktopNav";
+import MobileNav from "./MobileNav";
 
 const WithSubnavigation = () => {
   const { isOpen, onToggle } = useDisclosure();
@@ -60,9 +62,9 @@ const WithSubnavigation = () => {
               </Link>
             </NextLink>
 
-            {/* <Flex display={{ base: "none", md: "flex" }} ml={10}>
+            <Flex display={{ base: "none", md: "flex" }} ml={10}>
               <DesktopNav />
-            </Flex> */}
+            </Flex>
           </Flex>
 
           <Stack
@@ -100,7 +102,7 @@ const WithSubnavigation = () => {
       </Flex>
 
       <Collapse in={isOpen} animateOpacity>
-        {/* <MobileNav /> */}
+        <MobileNav />
       </Collapse>
     </Box>
   );

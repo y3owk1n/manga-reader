@@ -1,24 +1,72 @@
 import { MangaDetailInfo } from "@/types/dmzj.interface";
+import useLocalStorage from "@/utils/useLocalStorage";
 import {
   Badge,
   Box,
+  Button,
   GridItem,
   Heading,
+  HStack,
   Image as ChakraImage,
+  Link,
   SimpleGrid,
   Stack,
   Text,
   Wrap,
   WrapItem,
 } from "@chakra-ui/react";
+import NextLink from "next/link";
 import React, { FC } from "react";
+import { BsCheckCircleFill, BsFillBookmarkFill } from "react-icons/bs";
 import LazyLoad from "react-lazyload";
+import { LocalStorageChapterProgressProp } from "../Chapter/ChapterContainer";
 
 interface Props {
   mangaDetail: MangaDetailInfo;
 }
 
+export interface LocalStorageFavouriteProp {
+  id: string;
+  title: string;
+  cover: string;
+}
+
 const MangaDetailInfo: FC<Props> = ({ mangaDetail }) => {
+  const [favourite, setFavourite] = useLocalStorage<
+    LocalStorageFavouriteProp[]
+  >("favourite", []);
+
+  const [chapterProgress, setChapterProgress] = useLocalStorage<
+    LocalStorageChapterProgressProp[]
+  >("progress", []);
+
+  const handleAddToFavourite = () => {
+    const toFavourite: LocalStorageFavouriteProp = {
+      id: mangaDetail.id,
+      title: mangaDetail.title,
+      cover: mangaDetail.cover,
+    };
+
+    const favouriteExist = favourite.some((fav) => fav.id === mangaDetail.id);
+
+    if (favouriteExist) {
+      const newFavourite: LocalStorageFavouriteProp[] = favourite.filter(
+        (fav) => fav.id !== mangaDetail.id
+      );
+      setFavourite(newFavourite);
+    } else {
+      const newFavourite: LocalStorageFavouriteProp[] = [
+        ...favourite,
+        toFavourite,
+      ];
+      setFavourite(newFavourite);
+    }
+  };
+
+  const matchedChapterProgress = chapterProgress.filter(
+    (pc) => pc.comicId === Number(mangaDetail.id)
+  )[0];
+
   return (
     <SimpleGrid columns={[6, null, 6, 8]} spacing={4}>
       <GridItem colSpan={[2, null, 2, 2]}>
@@ -49,6 +97,39 @@ const MangaDetailInfo: FC<Props> = ({ mangaDetail }) => {
           <Text fontSize={{ base: "sm", md: "md" }}>
             {mangaDetail.description}
           </Text>
+          {chapterProgress.some(
+            (progressChap) => progressChap.comicId === Number(mangaDetail.id)
+          ) && (
+            <HStack>
+              <Text>最后阅读：</Text>
+              <NextLink
+                href={`/manga/${matchedChapterProgress.comicId}/${matchedChapterProgress.chapterId}`}
+                passHref
+              >
+                <Link colorScheme={"blue"}>
+                  {matchedChapterProgress.chapterName}
+                </Link>
+              </NextLink>
+            </HStack>
+          )}
+          <Box>
+            <Button
+              variant="outline"
+              colorScheme={"blue"}
+              onClick={handleAddToFavourite}
+              leftIcon={
+                favourite.some((f) => f.id === mangaDetail.id) ? (
+                  <BsCheckCircleFill />
+                ) : (
+                  <BsFillBookmarkFill />
+                )
+              }
+            >
+              {favourite.some((fav) => fav.id === mangaDetail.id)
+                ? "已收藏"
+                : "收藏"}
+            </Button>
+          </Box>
         </Stack>
       </GridItem>
     </SimpleGrid>

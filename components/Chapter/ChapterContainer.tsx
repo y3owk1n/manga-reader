@@ -1,4 +1,5 @@
 import { MangaChapterData } from "@/types/dmzj.interface";
+import useLocalStorage from "@/utils/useLocalStorage";
 import { Box, Container, Stack, Text } from "@chakra-ui/react";
 import React, { FC, useEffect, useRef, useState } from "react";
 import BreadcrumbChapter from "./BreadcrumbChapter";
@@ -9,10 +10,48 @@ interface Props {
   chapterData: MangaChapterData;
 }
 
+export interface LocalStorageChapterProgressProp {
+  comicId: number;
+  chapterId: number;
+  chapterName: string;
+}
+
 const ChapterContainer: FC<Props> = ({ chapterData }) => {
   const itemsRef = useRef<HTMLDivElement[]>([]);
 
   const [currentPage, setCurrentPage] = useState(1);
+
+  const [chapterProgress, setChapterProgress] = useLocalStorage<
+    LocalStorageChapterProgressProp[]
+  >("progress", []);
+
+  useEffect(() => {
+    const toChapterProgress: LocalStorageChapterProgressProp = {
+      comicId: chapterData.comic_id,
+      chapterId: chapterData.id,
+      chapterName: chapterData.chapter_name,
+    };
+
+    const comicExists = chapterProgress.some(
+      (chap) => chap.comicId === chapterData.comic_id
+    );
+
+    if (comicExists) {
+      const newChapterProgress: LocalStorageChapterProgressProp[] =
+        chapterProgress.filter((chap) => chap.comicId !== chapterData.comic_id);
+      const finalChapterProgress: LocalStorageChapterProgressProp[] = [
+        ...newChapterProgress,
+        toChapterProgress,
+      ];
+      setChapterProgress(finalChapterProgress);
+    } else {
+      const newChapterProgress: LocalStorageChapterProgressProp[] = [
+        ...chapterProgress,
+        toChapterProgress,
+      ];
+      setChapterProgress(newChapterProgress);
+    }
+  }, []);
 
   useEffect(() => {
     itemsRef.current = itemsRef.current.slice(0, chapterData.page_url.length);

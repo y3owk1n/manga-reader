@@ -69,15 +69,17 @@ const MangaGridContainer: FC<Props> = ({
         <HStack>
           <Button
             disabled={comicPage <= 1}
+            colorScheme="blue"
             onClick={() => setComicPage((prev) => prev - 1)}
           >
-            Prev
+            上一页
           </Button>
           <Button
+            colorScheme="blue"
             disabled={comicData.length < 20}
             onClick={() => setComicPage((prev) => prev + 1)}
           >
-            Next
+            下一页
           </Button>
         </HStack>
       </Stack>
