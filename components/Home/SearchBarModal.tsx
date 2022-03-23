@@ -1,5 +1,6 @@
 import { MangaSearchSwrRes } from "@/types/swrResponse.interface";
 import { fetchGetJSON } from "@/utils/apiHelper";
+import { replaceToMuwai } from "@/utils/replaceToMuwai";
 import useDebounce from "@/utils/useDebounce";
 import { SearchIcon } from "@chakra-ui/icons";
 import {
@@ -152,7 +153,7 @@ const SearchBarModal: FC<Props> = ({ isOpen, onClose }) => {
                                 rounded="md"
                                 objectFit="cover"
                                 alt={`Cover for ${manga.title}`}
-                                src={manga.cover}
+                                src={replaceToMuwai(manga.cover)}
                               />
                             </AspectRatio>
                           </Box>
