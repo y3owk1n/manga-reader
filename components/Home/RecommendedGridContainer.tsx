@@ -53,7 +53,7 @@ const RecommendedGridContainer: FC<Props> = ({
 
             <SimpleGrid columns={gridColumnsArray} spacing={4} w="full">
               {cat.data.map((comic) => (
-                <RecommendedMangaCard key={comic.obj_id} comic={comic} />
+                <RecommendedMangaCard key={comic.title} comic={comic} />
               ))}
             </SimpleGrid>
           </Stack>

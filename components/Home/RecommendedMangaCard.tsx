@@ -1,4 +1,5 @@
 import { RecommendedListData } from "@/types/dmzj.interface";
+import { replaceToMuwai } from "@/utils/replaceToMuwai";
 import {
   Badge,
   Box,
@@ -39,7 +40,7 @@ const RecommendedMangaCard: FC<Props> = ({ comic }) => {
                 roundedTop="md"
                 objectFit="cover"
                 alt={`Cover for ${comic.title}`}
-                src={comic.cover}
+                src={replaceToMuwai(comic.cover)}
                 w="full"
               />
             </LazyLoad>

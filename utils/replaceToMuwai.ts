@@ -1,3 +1,5 @@
 export const replaceToMuwai = (url: string) => {
-  return url.replace("dmzj", "muwai");
+  const toHttp = url.replace(/^https?:\/\//, "http://");
+  const toMuwai = toHttp.replace("dmzj", "muwai");
+  return toMuwai;
 };
