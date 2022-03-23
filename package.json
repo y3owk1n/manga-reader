@@ -15,6 +15,7 @@
     "@emotion/styled": "^11",
     "@l2studio/picacomic-api": "^0.1.12",
     "cheerio": "^1.0.0-rc.10",
+    "date-fns": "^2.28.0",
     "framer-motion": "^6",
     "next": "12.1.0",
     "next-usequerystate": "^1.7.2",

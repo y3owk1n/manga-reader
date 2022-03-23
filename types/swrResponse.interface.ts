@@ -1,4 +1,6 @@
 import {
+  CategoryData,
+  ComicByCategoryData,
   MangaChapterData,
   MangaDetailData,
   MangaSearchData,
@@ -34,4 +36,16 @@ export interface RecommendedSwrRes {
   code: number;
   message: string;
   data: RecommendedData[];
+}
+
+export interface CategorySwrRes {
+  code: number;
+  message: string;
+  data: CategoryData[];
+}
+
+export interface ComicByCategorySwrRes {
+  code: number;
+  message: string;
+  data: ComicByCategoryData[];
 }

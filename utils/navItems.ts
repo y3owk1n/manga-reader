@@ -45,6 +45,10 @@ export const NAV_ITEMS: Array<NavItem> = [
     href: "/latest",
   },
   {
+    label: "全部漫画",
+    href: "/all",
+  },
+  {
     label: "已收藏",
     href: "/favourite",
   },

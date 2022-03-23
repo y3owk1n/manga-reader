@@ -139,3 +139,24 @@ export interface RecommendedListData {
   obj_id: number;
   status: string;
 }
+
+export interface CategoryData {
+  title: string;
+  items: CategoryItemData[];
+}
+
+export interface CategoryItemData {
+  tag_id: number;
+  tag_name: string;
+}
+
+export interface ComicByCategoryData {
+  id: number;
+  title: string;
+  authors: string;
+  status: string;
+  cover: string;
+  types: string;
+  last_updatetime: number;
+  num: number;
+}
