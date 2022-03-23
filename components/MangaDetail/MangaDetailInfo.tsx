@@ -1,4 +1,5 @@
 import { MangaDetailInfo } from "@/types/dmzj.interface";
+import { replaceToMuwai } from "@/utils/replaceToMuwai";
 import useLocalStorage from "@/utils/useLocalStorage";
 import {
   Badge,
@@ -44,7 +45,7 @@ const MangaDetailInfo: FC<Props> = ({ mangaDetail }) => {
     const toFavourite: LocalStorageFavouriteProp = {
       id: mangaDetail.id,
       title: mangaDetail.title,
-      cover: mangaDetail.cover,
+      cover: replaceToMuwai(mangaDetail.cover),
     };
 
     const favouriteExist = favourite.some((fav) => fav.id === mangaDetail.id);
@@ -77,7 +78,7 @@ const MangaDetailInfo: FC<Props> = ({ mangaDetail }) => {
               rounded="md"
               objectFit="cover"
               alt={`Cover for ${mangaDetail.title}`}
-              src={mangaDetail.cover}
+              src={replaceToMuwai(mangaDetail.cover)}
               bgColor="gray.100"
             />
           </LazyLoad>

@@ -1,4 +1,5 @@
 import { UpdatedComicData } from "@/types/dmzj.interface";
+import { replaceToMuwai } from "@/utils/replaceToMuwai";
 import {
   AspectRatio,
   Badge,
@@ -41,7 +42,7 @@ const LatestUpdatedMangaCard: FC<Props> = ({ comic }) => {
                   roundedTop="md"
                   objectFit="cover"
                   alt={`Cover for ${comic.title}`}
-                  src={comic.coverImg}
+                  src={replaceToMuwai(comic.coverImg)}
                   w="full"
                 />
               </AspectRatio>

@@ -1,3 +1,4 @@
+import { replaceToMuwai } from "@/utils/replaceToMuwai";
 import { Box, chakra } from "@chakra-ui/react";
 import React, { FC, useState } from "react";
 import { LazyLoadImage } from "react-lazy-load-image-component";
@@ -36,7 +37,7 @@ const ChapterImagesContainer: FC<Props> = ({ image, page, itemsRef }) => {
     >
       <LazyLoadImage
         id={`page-${page}`}
-        src={image}
+        src={replaceToMuwai(image)}
         alt={`Page ${page}`}
         width={"100%"}
         delayMethod="debounce"
