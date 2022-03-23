@@ -9,10 +9,12 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import NextLink from "next/link";
+import { useRouter } from "next/router";
 import React from "react";
 import DesktopSubNav from "./DesktopSubNav";
 
 const DesktopNav = () => {
+  const router = useRouter();
   const linkColor = useColorModeValue("gray.600", "gray.200");
   const linkHoverColor = useColorModeValue("gray.800", "white");
   const popoverContentBgColor = useColorModeValue("white", "gray.800");
@@ -28,8 +30,12 @@ const DesktopNav = () => {
                   p={2}
                   href={navItem.href ?? "#"}
                   fontSize={"sm"}
-                  fontWeight={500}
-                  color={linkColor}
+                  fontWeight={
+                    router.asPath === navItem.href ? "bold" : "normal"
+                  }
+                  color={
+                    router.asPath === navItem.href ? "blue.500" : linkColor
+                  }
                   _hover={{
                     textDecoration: "none",
                     color: linkHoverColor,

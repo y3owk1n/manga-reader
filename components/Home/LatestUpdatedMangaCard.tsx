@@ -30,6 +30,7 @@ const LatestUpdatedMangaCard: FC<Props> = ({ comic }) => {
       _hover={{
         shadow: "lg",
         transform: "translateY(-5px)",
+        border: "1px solid rgba(0,0,0,0)",
       }}
     >
       <Link href={`/manga/${comic.comidId}`} passHref>

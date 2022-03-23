@@ -41,8 +41,10 @@ const handler = async (
   }
 
   try {
-    const baseUrl = `https://v3api.dmzj.com/`;
-    const comicByCategoryUrl = `${baseUrl}classify/${题材}-${读者群}-${进度}-${地域}/${popularOrLatest}/${page}.json`;
+    // https://nnv3api.dmzj.com/classify/4-3262-0-0/0/0.json
+    const baseUrl = `https://nnv3api.dmzj.com`;
+    // const baseUrl = `https://v3api.dmzj.com/`;
+    const comicByCategoryUrl = `${baseUrl}/classify/${题材}-${读者群}-${进度}-${地域}/${popularOrLatest}/${page}.json`;
 
     const comicByCategoryData: ComicByCategoryData[] = await fetchDmzjGetJSON(
       comicByCategoryUrl

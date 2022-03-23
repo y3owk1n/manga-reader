@@ -23,12 +23,12 @@ const All = () => {
   const [theme, setTheme] = useQueryState("题材", {
     history: "push",
     parse: (query: string) => parseInt(query),
-    defaultValue: 4,
+    defaultValue: 0,
   });
   const [audience, setAudience] = useQueryState("读者群", {
     history: "push",
     parse: (query: string) => parseInt(query),
-    defaultValue: 3262,
+    defaultValue: 0,
   });
   const [status, setStatus] = useQueryState("进度", {
     history: "push",

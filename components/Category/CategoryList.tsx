@@ -106,30 +106,30 @@ const CategoryList: FC<Props> = ({
           <Stack key={category.title}>
             <Text fontWeight="bold">{category.title}</Text>
             <Wrap>
-              {category.items
-                .filter((item) => item.tag_id !== 0)
-                .map((item) => (
-                  <WrapItem key={item.tag_id}>
-                    <Button
-                      fontWeight={
-                        getCurrent(category.title, item.tag_id)
-                          ? "bold"
-                          : "normal"
-                      }
-                      variant="link"
-                      colorScheme={
-                        getCurrent(category.title, item.tag_id)
-                          ? "blue"
-                          : "gray"
-                      }
-                      onClick={() =>
-                        handleTagSelect(category.title, item.tag_id)
-                      }
-                    >
-                      {item.tag_name}
-                    </Button>
-                  </WrapItem>
-                ))}
+              {category.items.map((item) => (
+                <WrapItem
+                  key={item.tag_id}
+                  hidden={
+                    (category.title === "进度" || category.title === "地域") &&
+                    item.tag_id === 0
+                  }
+                >
+                  <Button
+                    fontWeight={
+                      getCurrent(category.title, item.tag_id)
+                        ? "bold"
+                        : "normal"
+                    }
+                    variant="link"
+                    colorScheme={
+                      getCurrent(category.title, item.tag_id) ? "blue" : "gray"
+                    }
+                    onClick={() => handleTagSelect(category.title, item.tag_id)}
+                  >
+                    {item.tag_name}
+                  </Button>
+                </WrapItem>
+              ))}
             </Wrap>
           </Stack>
         ))}
