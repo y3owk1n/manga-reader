@@ -107,7 +107,7 @@ const MangaDetailInfo: FC<Props> = ({ mangaDetail }) => {
                 href={`/manga/${matchedChapterProgress.comicId}/${matchedChapterProgress.chapterId}`}
                 passHref
               >
-                <Link colorScheme={"blue"}>
+                <Link color="blue.500">
                   {matchedChapterProgress.chapterName}
                 </Link>
               </NextLink>

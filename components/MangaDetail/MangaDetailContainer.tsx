@@ -3,8 +3,6 @@ import useLocalStorage from "@/utils/useLocalStorage";
 import { ChevronDownIcon, ChevronUpIcon } from "@chakra-ui/icons";
 import {
   Button,
-  chakra,
-  HStack,
   Link as ChakraLink,
   SimpleGrid,
   Stack,
@@ -76,15 +74,17 @@ const MangaDetailContainer: FC<Props> = ({ data }) => {
                     colorScheme={"blue"}
                     fontSize="sm"
                     noOfLines={1}
-                  >
-                    <HStack>
-                      {chapterProgress.some(
+                    leftIcon={
+                      chapterProgress.some(
                         (progressChap) =>
                           progressChap.comicId === Number(chap.comic_id) &&
                           progressChap.chapterId === Number(chap.id)
-                      ) && <AiFillEye />}
-                      <chakra.span>{chap.chapter_name}</chakra.span>
-                    </HStack>
+                      ) ? (
+                        <AiFillEye />
+                      ) : undefined
+                    }
+                  >
+                    {chap.chapter_name}
                   </Button>
                 </ChakraLink>
               </Link>
