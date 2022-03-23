@@ -22,8 +22,8 @@ const MobileNavItem = ({ label, children, href }: NavItem) => {
     <Stack spacing={4} onClick={children && onToggle}>
       <NextLink href={href ?? "#"} passHref>
         <Link
-          fontWeight={router.asPath === href ? "bold" : "normal"}
-          color={router.asPath === href ? "blue.500" : "gray.600"}
+          fontWeight={router.asPath.split("?")[0] === href ? "bold" : "normal"}
+          color={router.asPath.split("?")[0] === href ? "blue.500" : "gray.600"}
           _hover={{
             textDecoration: "none",
           }}
@@ -59,8 +59,16 @@ const MobileNavItem = ({ label, children, href }: NavItem) => {
                   key={child.label}
                   py={2}
                   href={child.href}
-                  fontWeight={router.asPath === child.href ? "bold" : "normal"}
-                  color={router.asPath === child.href ? "blue.500" : "gray.600"}
+                  fontWeight={
+                    router.asPath.split("?")[0] === child.href
+                      ? "bold"
+                      : "normal"
+                  }
+                  color={
+                    router.asPath.split("?")[0] === child.href
+                      ? "blue.500"
+                      : "gray.600"
+                  }
                 >
                   {child.label}
                 </Link>

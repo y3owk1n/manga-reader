@@ -31,10 +31,14 @@ const DesktopNav = () => {
                   href={navItem.href ?? "#"}
                   fontSize={"sm"}
                   fontWeight={
-                    router.asPath === navItem.href ? "bold" : "normal"
+                    router.asPath.split("?")[0] === navItem.href
+                      ? "bold"
+                      : "normal"
                   }
                   color={
-                    router.asPath === navItem.href ? "blue.500" : linkColor
+                    router.asPath.split("?")[0] === navItem.href
+                      ? "blue.500"
+                      : linkColor
                   }
                   _hover={{
                     textDecoration: "none",
