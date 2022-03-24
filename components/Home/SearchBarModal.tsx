@@ -4,7 +4,6 @@ import { replaceToMuwai } from "@/utils/replaceToMuwai";
 import useDebounce from "@/utils/useDebounce";
 import { SearchIcon } from "@chakra-ui/icons";
 import {
-  AspectRatio,
   Badge,
   Box,
   Center,
@@ -23,6 +22,7 @@ import {
   Spinner,
   Stack,
   Text,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -58,6 +58,8 @@ const SearchBarModal: FC<Props> = ({ isOpen, onClose }) => {
 
   const [mangaSearchResults, setMangaSearchResults] =
     useState<MangaSearchSwrRes | null>(null);
+
+  const hoverBgColor = useColorModeValue("gray.100", "gray.600");
 
   useEffect(() => {
     router.events.on("routeChangeStart", () => {
@@ -138,24 +140,18 @@ const SearchBarModal: FC<Props> = ({ isOpen, onClose }) => {
                           spacing={6}
                           cursor="pointer"
                           _hover={{
-                            bgColor: "gray.100",
+                            bgColor: hoverBgColor,
                           }}
                           transition={"0.2s ease-in-out"}
                           rounded="lg"
                         >
                           <Box h="full" maxW={"100px"} w="full">
-                            <AspectRatio
-                              ratio={320 / 424}
+                            <ChakraImage
                               rounded="md"
-                              bgColor="gray.100"
-                            >
-                              <ChakraImage
-                                rounded="md"
-                                objectFit="cover"
-                                alt={`Cover for ${manga.title}`}
-                                src={replaceToMuwai(manga.cover)}
-                              />
-                            </AspectRatio>
+                              objectFit="cover"
+                              alt={`Cover for ${manga.title}`}
+                              src={replaceToMuwai(manga.cover)}
+                            />
                           </Box>
                           <Stack flex="1">
                             <Text fontWeight={"bold"} noOfLines={1}>

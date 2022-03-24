@@ -14,6 +14,7 @@ import {
   HStack,
   SimpleGrid,
   Stack,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import { useQueryState } from "next-usequerystate";
 import React from "react";
@@ -55,6 +56,8 @@ const All = () => {
     defaultValue: 1,
   });
 
+  const ListBgColor = useColorModeValue("gray.100", "gray.700");
+
   const { data: categoryData, error: categoryError } = useSWR<
     CategorySwrRes,
     Error
@@ -84,7 +87,7 @@ const All = () => {
           <GridItem
             colSpan={[1, null, 2, 2]}
             p={4}
-            bgColor="gray.100"
+            bgColor={ListBgColor}
             rounded="md"
             h="fit-content"
             position={["relative", null, "sticky", "sticky"]}

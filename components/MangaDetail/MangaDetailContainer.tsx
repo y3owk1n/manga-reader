@@ -7,6 +7,7 @@ import {
   SimpleGrid,
   Stack,
   useBreakpointValue,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import Link from "next/link";
 import React, { FC, useEffect, useState } from "react";
@@ -35,6 +36,8 @@ const MangaDetailContainer: FC<Props> = ({ data }) => {
 
   const [showAllChapters, setShowAllChapters] = useState(false);
 
+  const chapterListBgColor = useColorModeValue("gray.100", "gray.700");
+
   useEffect(() => {
     if (showAllChapters) {
       setArrayLength(dataLength);
@@ -53,7 +56,7 @@ const MangaDetailContainer: FC<Props> = ({ data }) => {
     <Stack spacing={6}>
       <MangaDetailInfo mangaDetail={data.info} />
 
-      <Stack bgColor="gray.50" rounded="lg" p={6}>
+      <Stack bgColor={chapterListBgColor} rounded="lg" p={6}>
         <SimpleGrid columns={responsiveColumns} spacing={4}>
           {data.list
             .sort((a, b) => Number(b.chapter_order) - Number(a.chapter_order))

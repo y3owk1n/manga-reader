@@ -8,16 +8,19 @@ import {
   Link,
   Stack,
   useBreakpointValue,
+  useColorMode,
   useColorModeValue,
   useDisclosure,
 } from "@chakra-ui/react";
 import NextLink from "next/link";
+import { BsFillMoonFill, BsFillSunFill } from "react-icons/bs";
 import SearchBarContainer from "../Home/SearchBarContainer";
 import DesktopNav from "./DesktopNav";
 import MobileNav from "./MobileNav";
 
 const WithSubnavigation = () => {
   const { isOpen, onToggle } = useDisclosure();
+  const { colorMode, toggleColorMode } = useColorMode();
 
   return (
     <Box position="sticky" top={0} bgColor="white" zIndex={100}>
@@ -71,8 +74,17 @@ const WithSubnavigation = () => {
             flex={{ base: 1, md: 0 }}
             justify={"flex-end"}
             direction={"row"}
-            spacing={6}
+            align="center"
           >
+            <IconButton
+              aria-label="toggle darkmode"
+              icon={
+                colorMode === "dark" ? <BsFillSunFill /> : <BsFillMoonFill />
+              }
+              size="sm"
+              onClick={toggleColorMode}
+              variant={"ghost"}
+            />
             <SearchBarContainer iconOnly />
             {/* <Button
               as={"a"}

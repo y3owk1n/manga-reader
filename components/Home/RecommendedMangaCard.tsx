@@ -20,11 +20,16 @@ interface Props {
 }
 
 const RecommendedMangaCard: FC<Props> = ({ comic }) => {
+  const border = useColorModeValue(
+    "1px solid rgba(0, 0, 0, 0.15)",
+    "1px solid rgba(255, 255, 255, 0.05)"
+  );
+
   return (
     <GridItem
       bg={useColorModeValue("white", "gray.800")}
       rounded="md"
-      border="1px solid rgba(0, 0, 0, 0.15)"
+      border={border}
       transition="all 0.2s"
       _hover={{
         shadow: "lg",
