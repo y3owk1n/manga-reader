@@ -40,8 +40,8 @@ const ChapterImagesContainer: FC<Props> = ({ image, page, itemsRef }) => {
         src={replaceToMuwai(image)}
         alt={`Page ${page}`}
         width={"100%"}
-        delayMethod="debounce"
-        delayTime={500}
+        // delayMethod="debounce"
+        // delayTime={500}
         height={`100%`}
         afterLoad={() => {
           setLoaded(true);
