@@ -44,7 +44,6 @@ const LatestUpdatedMangaCard: FC<Props> = ({ comic }) => {
             <LazyLoad>
               <AspectRatio ratio={270 / 360}>
                 <ChakraImage
-                  loading={"lazy"}
                   roundedTop="md"
                   objectFit="cover"
                   alt={`Cover for ${comic.title}`}

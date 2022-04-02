@@ -42,7 +42,6 @@ const RecommendedMangaCard: FC<Props> = ({ comic }) => {
           <Box position="relative">
             <LazyLoad>
               <ChakraImage
-                loading={"lazy"}
                 roundedTop="md"
                 objectFit="cover"
                 alt={`Cover for ${comic.title}`}

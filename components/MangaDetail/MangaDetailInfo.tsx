@@ -74,7 +74,6 @@ const MangaDetailInfo: FC<Props> = ({ mangaDetail }) => {
         <Box position="relative">
           <LazyLoad>
             <ChakraImage
-              loading={"lazy"}
               rounded="md"
               objectFit="cover"
               alt={`Cover for ${mangaDetail.title}`}
