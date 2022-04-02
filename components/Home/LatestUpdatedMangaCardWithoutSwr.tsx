@@ -1,4 +1,5 @@
 import { MangaDetailSimilarList } from "@/types/dmzj.interface";
+import { replaceToMuwai } from "@/utils/replaceToMuwai";
 import {
   AspectRatio,
   Box,
@@ -40,7 +41,7 @@ const LatestUpdatedMangaCardWithoutSwr: FC<Props> = ({ comic }) => {
                   roundedTop="md"
                   objectFit="cover"
                   alt={`Cover for ${comic.title}`}
-                  src={comic.cover}
+                  src={replaceToMuwai(comic.cover)}
                   w="full"
                 />
               </AspectRatio>
