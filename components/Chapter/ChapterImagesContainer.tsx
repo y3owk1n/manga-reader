@@ -1,7 +1,8 @@
 import { replaceToMuwai } from "@/utils/replaceToMuwai";
-import { Box, chakra } from "@chakra-ui/react";
+import { Box, chakra, Image } from "@chakra-ui/react";
 import React, { FC, useState } from "react";
 import { LazyLoadImage } from "react-lazy-load-image-component";
+import LazyLoad from "react-lazyload";
 
 interface Props {
   image: string;
@@ -35,20 +36,42 @@ const ChapterImagesContainer: FC<Props> = ({ image, page, itemsRef }) => {
       bgImage={`url(/assets/placeholder.png)`}
       bgSize="cover"
     >
-      <LazyLoadImage
-        id={`page-${page}`}
-        src={replaceToMuwai(image)}
-        alt={`Page ${page}`}
-        width={"100%"}
-        // delayMethod="debounce"
-        // delayTime={500}
-        height={`100%`}
-        afterLoad={() => {
-          setLoaded(true);
-        }}
-      />
+      <LazyLoad>
+        <Image
+          id={`page-${page}`}
+          src={replaceToMuwai(image)}
+          alt={`Page ${page}`}
+          width={"100%"}
+          height={`100%`}
+          onLoad={() => {
+            setLoaded(true);
+          }}
+        />
+      </LazyLoad>
     </Box>
   );
+  // return (
+  //   <Box
+  //     w="100%"
+  //     h={loaded ? "100%" : `800px`}
+  //     ref={(el: HTMLDivElement) => (itemsRef.current[Number(page) - 1] = el)}
+  //     bgImage={`url(/assets/placeholder.png)`}
+  //     bgSize="cover"
+  //   >
+  //     <LazyLoadImage
+  //       id={`page-${page}`}
+  //       src={replaceToMuwai(image)}
+  //       alt={`Page ${page}`}
+  //       width={"100%"}
+  //       // delayMethod="debounce"
+  //       // delayTime={500}
+  //       height={`100%`}
+  //       afterLoad={() => {
+  //         setLoaded(true);
+  //       }}
+  //     />
+  //   </Box>
+  // );
 };
 
 export default ChapterImagesContainer;
