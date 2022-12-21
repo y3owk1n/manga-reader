@@ -1,13 +1,13 @@
 import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons";
 import { Button, HStack } from "@chakra-ui/react";
 import Link from "next/link";
-import { useRouter } from "next/router";
-import React, { FC } from "react";
+import React, { FC, ReactNode } from "react";
 
 interface Props {
   prevChapterId: number | undefined;
   nextChapterId: number | undefined;
   comicId: number;
+    children: ReactNode
 }
 
 const Pagination: FC<Props> = ({
@@ -16,7 +16,6 @@ const Pagination: FC<Props> = ({
   children,
   comicId,
 }) => {
-  const router = useRouter();
 
   const hasPrev = prevChapterId !== undefined;
   const hasNext = nextChapterId !== undefined;

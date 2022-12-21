@@ -11,7 +11,6 @@ import {
 } from "@chakra-ui/react";
 import Link from "next/link";
 import React, { FC } from "react";
-import LazyLoad from "react-lazyload";
 import { LocalStorageFavouriteProp } from "../MangaDetail/MangaDetailInfo";
 
 interface Props {
@@ -34,7 +33,7 @@ const FavouriteMangaCard: FC<Props> = ({ comic }) => {
       <Link href={`/manga/${comic.id}`} passHref>
         <ChakraLink _hover={{ textDecor: "none" }}>
           <Box position="relative">
-            <LazyLoad>
+                        {/* Add lazyloading here */}
               <AspectRatio ratio={270 / 360}>
                 <ChakraImage
                   roundedTop="md"
@@ -44,7 +43,6 @@ const FavouriteMangaCard: FC<Props> = ({ comic }) => {
                   w="full"
                 />
               </AspectRatio>
-            </LazyLoad>
           </Box>
 
           <Box p={4} textAlign="left">

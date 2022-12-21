@@ -16,7 +16,6 @@ import { formatDistanceToNow } from "date-fns";
 import { zhCN } from "date-fns/locale";
 import Link from "next/link";
 import React, { FC } from "react";
-import LazyLoad from "react-lazyload";
 
 interface Props {
   comic: ComicByCategoryData;
@@ -43,7 +42,7 @@ const CategoryListCard: FC<Props> = ({ comic }) => {
       <Link href={`/manga/${comic.id}`} passHref>
         <ChakraLink _hover={{ textDecor: "none" }}>
           <Box position="relative">
-            <LazyLoad>
+                        {/* add lazyloading here */}
               <AspectRatio ratio={270 / 360}>
                 <ChakraImage
                   roundedTop="md"
@@ -53,7 +52,6 @@ const CategoryListCard: FC<Props> = ({ comic }) => {
                   w="full"
                 />
               </AspectRatio>
-            </LazyLoad>
             {comic.status !== "" && (
               <HStack bottom={0} left={0} m={2} position="absolute">
                 <Badge colorScheme={"blue"}>{comic.status}</Badge>

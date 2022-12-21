@@ -13,7 +13,6 @@ import {
 } from "@chakra-ui/react";
 import Link from "next/link";
 import React, { FC } from "react";
-import LazyLoad from "react-lazyload";
 
 interface Props {
   comic: RecommendedListData;
@@ -40,7 +39,7 @@ const RecommendedMangaCard: FC<Props> = ({ comic }) => {
       <Link href={`/manga/${comic.obj_id}`} passHref>
         <ChakraLink _hover={{ textDecor: "none" }}>
           <Box position="relative">
-            <LazyLoad>
+                        {/* Add lazyloading here */}
               <ChakraImage
                 roundedTop="md"
                 objectFit="cover"
@@ -48,7 +47,6 @@ const RecommendedMangaCard: FC<Props> = ({ comic }) => {
                 src={replaceToMuwai(comic.cover)}
                 w="full"
               />
-            </LazyLoad>
             {comic.status !== "" && (
               <HStack bottom={0} left={0} m={2} position="absolute">
                 <Badge colorScheme={"blue"}>{comic.status}</Badge>

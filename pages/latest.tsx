@@ -8,7 +8,7 @@ import React, { useState } from "react";
 import useSWR from "swr";
 
 const Latest = () => {
-  const [comicType, setComicType] = useState(100);
+  const [comicType, _] = useState(100);
   const [comicPage, setComicPage] = useQueryState("page", {
     history: "push",
     parse: (query: string) => parseInt(query),
