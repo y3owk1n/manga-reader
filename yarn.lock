@@ -1501,18 +1501,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@l2studio/picacomic-api@npm:^0.2.0-0":
-  version: 0.2.0-0
-  resolution: "@l2studio/picacomic-api@npm:0.2.0-0"
+"@l2studio/picacomic-api@npm:^0.2.0":
+  version: 0.2.0
+  resolution: "@l2studio/picacomic-api@npm:0.2.0"
   dependencies:
-    got: ^11.8.5
-    uuid: ^8.3.2
+    got: ^11.8.6
+    uuid: ^9.0.0
   peerDependencies:
     got: ^11.0.0
-  peerDependenciesMeta:
-    got:
-      optional: true
-  checksum: fad0394115fa2c4c5a9f9a700e4a9231bca7c9f998ebefc2c89c963eeb4f6bbebdaeeb40d9b4c522a5b3664cfa39b4f44c217497d4fd9e85a1133da920004b3b
+  checksum: 0c917fe4f9dc3b7388befc0785da268cc298b6f50cd7bd09aff74812c5c05ba5e062e71485816cbd3222ee15e6c4a3b021a4c4b09606972bf0a9d4334fa59b2b
   languageName: node
   linkType: hard
 
@@ -1908,10 +1905,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:18.11.19":
-  version: 18.11.19
-  resolution: "@types/node@npm:18.11.19"
-  checksum: d7cd19fcfc59cbdd3f9ba0b4072cb7adc21bd575bd8eb7d7e698975e63564aaa83f03434f32b12331f84f73d0b369d9cbe2371e359d9d7f5c3361f4987f4f7da
+"@types/node@npm:18.13.0":
+  version: 18.13.0
+  resolution: "@types/node@npm:18.13.0"
+  checksum: 4ea10f8802848b01672bce938f678b6774ca2cee0c9774f12275ab064ae07818419c3e2e41d6257ce7ba846d1ea26c63214aa1dfa4166fa3746291752b8c6416
   languageName: node
   linkType: hard
 
@@ -2686,8 +2683,8 @@ __metadata:
     "@chakra-ui/react": ^2.4.9
     "@emotion/react": ^11.10.5
     "@emotion/styled": ^11.10.5
-    "@l2studio/picacomic-api": ^0.2.0-0
-    "@types/node": 18.11.19
+    "@l2studio/picacomic-api": ^0.2.0
+    "@types/node": 18.13.0
     "@types/probe-image-size": ^7.2.0
     "@types/react": 18.0.27
     "@types/react-lazy-load-image-component": ^1.5.2
@@ -2696,11 +2693,11 @@ __metadata:
     date-fns: ^2.29.3
     eslint: 8.33.0
     eslint-config-next: 13.1.6
-    framer-motion: ^9.0.1
+    framer-motion: ^9.0.2
     next: 13.1.6
     next-usequerystate: ^1.7.2
     probe-image-size: ^7.2.3
-    protobufjs: ^7.2.1
+    protobufjs: ^7.2.2
     react: 18.2.0
     react-dom: 18.2.0
     react-icons: ^4.7.1
@@ -3291,9 +3288,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"framer-motion@npm:^9.0.1":
-  version: 9.0.1
-  resolution: "framer-motion@npm:9.0.1"
+"framer-motion@npm:^9.0.2":
+  version: 9.0.2
+  resolution: "framer-motion@npm:9.0.2"
   dependencies:
     "@emotion/is-prop-valid": ^0.8.2
     "@motionone/dom": ^10.15.3
@@ -3305,7 +3302,7 @@ __metadata:
   dependenciesMeta:
     "@emotion/is-prop-valid":
       optional: true
-  checksum: e4e47bad607ad9882c515223dab2357203812039bb47f2787a29b9e951299cb6b94d18a46989bb6fc6a5a31a417a58c3cf210e2e6867d2ab85190550767465de
+  checksum: 5694d3a49acb9f753f0eed4a946c2b33efc237e0863b882cc4bed9a6022447ce2c9024134b5e9fd7b6f73602d9af046fa633c0f7235e8cbb24702b403299b55e
   languageName: node
   linkType: hard
 
@@ -3511,7 +3508,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"got@npm:^11.8.5":
+"got@npm:^11.8.6":
   version: 11.8.6
   resolution: "got@npm:11.8.6"
   dependencies:
@@ -4592,9 +4589,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"protobufjs@npm:^7.2.1":
-  version: 7.2.1
-  resolution: "protobufjs@npm:7.2.1"
+"protobufjs@npm:^7.2.2":
+  version: 7.2.2
+  resolution: "protobufjs@npm:7.2.2"
   dependencies:
     "@protobufjs/aspromise": ^1.1.2
     "@protobufjs/base64": ^1.1.2
@@ -4608,7 +4605,7 @@ __metadata:
     "@protobufjs/utf8": ^1.1.0
     "@types/node": ">=13.7.0"
     long: ^5.0.0
-  checksum: 4dc0b11143b609548c539b90c3834eb94c42abe8fbc6809dc0ceb6ba117fb23c0c27add2ba6ec1444908d5c0b5b4d28aa571bb1b30b2fe68e321bd6deab4d6a2
+  checksum: 86166e8f3e46789fa4d117ae72c17356db36bf87c0e0710d224be32e543b1c378a94e66dc2b1de5af45edfc25f56acfc7e688c50c956426a3ae97bc474f4445c
   languageName: node
   linkType: hard
 
@@ -5456,12 +5453,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"uuid@npm:^8.3.2":
-  version: 8.3.2
-  resolution: "uuid@npm:8.3.2"
+"uuid@npm:^9.0.0":
+  version: 9.0.0
+  resolution: "uuid@npm:9.0.0"
   bin:
     uuid: dist/bin/uuid
-  checksum: 5575a8a75c13120e2f10e6ddc801b2c7ed7d8f3c8ac22c7ed0c7b2ba6383ec0abda88c905085d630e251719e0777045ae3236f04c812184b7c765f63a70e58df
+  checksum: 8dd2c83c43ddc7e1c71e36b60aea40030a6505139af6bee0f382ebcd1a56f6cd3028f7f06ffb07f8cf6ced320b76aea275284b224b002b289f89fe89c389b028
   languageName: node
   linkType: hard
 
