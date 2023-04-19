@@ -5,63 +5,63 @@ import { fetchDmzjGetJSON } from "@/utils/apiHelper";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 const handler = async (
-  req: NextApiRequest,
-  res: NextApiResponse<ComicByCategorySwrRes>
+    req: NextApiRequest,
+    res: NextApiResponse<ComicByCategorySwrRes>
 ) => {
-  const {
-    题材 = 0,
-    读者群 = 0,
-    进度 = 0,
-    地域 = 0,
-    popularOrLatest = 0,
-    page = 0,
-  } = req.query;
+    const {
+        题材 = 0,
+        读者群 = 0,
+        进度 = 0,
+        地域 = 0,
+        popularOrLatest = 0,
+        page = 0,
+    } = req.query;
 
-  if (req.method !== "GET") {
-    return res.status(405).json({
-      code: 405,
-      data: [],
-      message: "Not Allowed",
-    });
-  }
+    if (req.method !== "GET") {
+        return res.status(405).json({
+            code: 405,
+            data: [],
+            message: "Not Allowed",
+        });
+    }
 
-  if (
-    题材 < 0 ||
-    读者群 < 0 ||
-    进度 < 0 ||
-    地域 < 0 ||
-    popularOrLatest < 0 ||
-    page < 0
-  ) {
-    return res.status(405).json({
-      code: 405,
-      data: [],
-      message: "Page and type are both required",
-    });
-  }
+    if (
+        题材 as number < 0 ||
+        读者群 as number < 0 ||
+        进度 as number < 0 ||
+        地域 as number < 0 ||
+        popularOrLatest as number < 0 ||
+        page as number < 0
+    ) {
+        return res.status(405).json({
+            code: 405,
+            data: [],
+            message: "Page and type are both required",
+        });
+    }
 
-  try {
-    // https://nnv3api.dmzj.com/classify/4-3262-0-0/0/0.json
-    const baseUrl = `https://nnv3api.dmzj.com`;
-    // const baseUrl = `https://v3api.dmzj.com/`;
-    const comicByCategoryUrl = `${baseUrl}/classify/${题材}-${读者群}-${进度}-${地域}/${popularOrLatest}/${page}.json`;
+    try {
+        // https://nnv3api.dmzj.com/classify/4-3262-0-0/0/0.json
+        const baseUrl = `https://nnv3api.dmzj.com`;
+        // const baseUrl = `https://v3api.dmzj.com/`;
+        const comicByCategoryUrl = `${baseUrl}/classify/${题材}-${读者群}-${进度}-${地域}/${popularOrLatest}/${page}.json`;
 
-    const comicByCategoryData: ComicByCategoryData[] = await fetchDmzjGetJSON(
-      comicByCategoryUrl
-    );
+        const comicByCategoryData: ComicByCategoryData[] = await fetchDmzjGetJSON(
+            comicByCategoryUrl
+        );
 
-    res.status(200).json({
-      code: 200,
-      data: comicByCategoryData,
-      message: "Ok",
-    });
-  } catch (error: any) {
-    return res.status(500).json({
-      code: 500,
-      data: [],
-      message: error.message,
-    });
-  }
+        res.status(200).json({
+            code: 200,
+            data: comicByCategoryData,
+            message: "Ok",
+        });
+    } catch (error: any) {
+        return res.status(500).json({
+            code: 500,
+            data: [],
+            message: error.message,
+        });
+    }
 };
 
 export default handler;
